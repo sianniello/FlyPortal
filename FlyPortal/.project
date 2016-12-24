@@ -3,8 +3,9 @@
 	<name>FlyPortal</name>
 	<comment></comment>
 	<projects>
-		<project>FlyPortalWeb</project>
 		<project>FlyPortalEJB</project>
+		<project>FlyPortalUtilities</project>
+		<project>FlyPortalWeb</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
