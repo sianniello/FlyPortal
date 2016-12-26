@@ -18,13 +18,13 @@ import user.User;
  */
 @Stateless
 @LocalBean
-public class LoginEJB implements LoginEJBLocal {
+public class LoginBean implements LoginBeanLocal {
 
 
 	/**
 	 * Default constructor. 
 	 */
-	public LoginEJB() {
+	public LoginBean() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -34,7 +34,7 @@ public class LoginEJB implements LoginEJBLocal {
 		Connection con = null;
 		ResultSet rs = null;
 		String url = "jdbc:mysql://localhost:3306/";;
-		String db = "FlyPortal";
+		String db = "fly_portal";
 		String query = "SELECT * FROM users WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
 
 		try{

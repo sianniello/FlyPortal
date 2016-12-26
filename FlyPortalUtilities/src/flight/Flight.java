@@ -15,13 +15,14 @@ public class Flight {
 	private GregorianCalendar dep_time;
 	private String company;
 	private String state;
+	private int freeSeats;
 	
 	public Flight(String flight, String depAirport, String arrAirport,
-			String dep_time, String company, String state) {
+			String dep_time, String company, String state, int freeSeats) {
 		this.flight = flight;
 		this.depAirport = depAirport;
 		this.arrAirport = arrAirport;
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = null;
 		try {
 			date = df.parse(dep_time);
@@ -32,43 +33,58 @@ public class Flight {
 		this.dep_time.setTime(date);
 		this.company = company;
 		this.state = state;
+		this.freeSeats = freeSeats;
 	}
-
-	public synchronized String getFlight() {
-		return flight;
-	}
-	public synchronized void setFlight(String flight) {
+	
+	public Flight(String flight) {
 		this.flight = flight;
 	}
-	public synchronized String getDepAirport() {
+
+	public  String getFlight() {
+		return flight;
+	}
+	public  void setFlight(String flight) {
+		this.flight = flight;
+	}
+	public  String getDepAirport() {
 		return depAirport;
 	}
-	public synchronized void setDepAirport(String depAirport) {
+	public  void setDepAirport(String depAirport) {
 		this.depAirport = depAirport;
 	}
-	public synchronized String getArrAirport() {
+	public  String getArrAirport() {
 		return arrAirport;
 	}
-	public synchronized void setArrAirport(String arrAirport) {
+	public  void setArrAirport(String arrAirport) {
 		this.arrAirport = arrAirport;
 	}
-	public synchronized GregorianCalendar getDep_time() {
+	public  GregorianCalendar getDep_time() {
 		return dep_time;
 	}
-	public synchronized void setDep_time(GregorianCalendar dep_time) {
+	public  void setDep_time(GregorianCalendar dep_time) {
 		this.dep_time = dep_time;
 	}
-	public synchronized String getCompany() {
+	public  String getCompany() {
 		return company;
 	}
-	public synchronized void setCompany(String company) {
+	public  void setCompany(String company) {
 		this.company = company;
 	}
-	public synchronized String getState() {
+	public  String getState() {
 		return state;
 	}
-	public synchronized void setState(String state) {
+	public  void setState(String state) {
 		this.state = state;
+	}
+
+	public String toString() {
+		return "Flight [" + (flight != null ? "flight=" + flight + ", " : "")
+				+ (depAirport != null ? "depAirport=" + depAirport + ", " : "")
+				+ (arrAirport != null ? "arrAirport=" + arrAirport + ", " : "")
+				+ (dep_time != null ? "dep_time=" + dep_time + ", " : "")
+				+ (company != null ? "company=" + company + ", " : "")
+				+ (state != null ? "state=" + state + ", " : "") + "freeSeats="
+				+ freeSeats + "]";
 	}
 	
 }

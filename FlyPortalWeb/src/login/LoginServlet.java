@@ -17,7 +17,7 @@ import user.User;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       private LoginEJB le;
+       private LoginBean le;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		le = new LoginEJB();
+
 	}
 
 	/**

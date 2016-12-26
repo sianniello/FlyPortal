@@ -5,7 +5,7 @@ import javax.ejb.Local;
 import user.User;
 
 @Local
-public interface LoginEJBLocal {
+public interface LoginBeanLocal {
 
 	public boolean login(User u);
 	
