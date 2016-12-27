@@ -34,15 +34,7 @@ public class BookingServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String flight = request.getParameter("flight");
-		bookingBean.initialize();
-		bookingBean.addFlight(new Flight(flight));
-		TreeMap<String, Flight> flights = bookingBean.getBooking();
 		
-		for(String f : flights.keySet())
-			System.out.println(flights.get(f).toString());
-		
-		request.getRequestDispatcher("index.html").forward(request, response);
 		
 	}
 

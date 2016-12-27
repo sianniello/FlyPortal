@@ -11,6 +11,9 @@
 			<attribute name="owner.project.facets" value="jst.ejb"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector.J 5.1/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/FlyPortalUtilities"/>
 	<classpathentry kind="lib" path="/FlyPortalUtilities/bin/FlyPortalUtilities.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
