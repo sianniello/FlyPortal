@@ -29,14 +29,14 @@ public class LoginBean implements LoginBeanLocal {
 	}
 
 	@Override
-	public boolean login(User u) {
+	public boolean login(User u, String s) {
 
 		Connection con = null;
 		ResultSet rs = null;
 		String url = "jdbc:mysql://localhost:3306/";;
 		String db = "fly_portal";
-		String query = "SELECT * FROM users WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
-
+		String query = "SELECT * FROM " + (s.equals("user")? "users" : "db_managers") + " WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
+		System.out.println(query);
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url+db,"admin","password");

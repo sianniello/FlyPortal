@@ -6,7 +6,7 @@ public class Flight {
 	private String flight;
 	private String depAirport;
 	private String arrAirport;
-	private String depTime;
+	public String depTime;
 	private String company;
 	private String state;
 	private int freeSeats;

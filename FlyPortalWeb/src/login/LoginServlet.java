@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import user.User;
 
@@ -37,8 +38,11 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(lb.login(new User(request.getParameter("username"), request.getParameter("password"))))
+		if(lb.login(new User(request.getParameter("username"), request.getParameter("password")), request.getParameter("optradio"))) {
+			HttpSession session = request.getSession();
+			session.setAttribute("auth", (request.getParameter("optradio").equals("admin")? "admin" : "user"));
 			request.getRequestDispatcher("index.html").forward(request, response);
+		}
 		else
 			request.getRequestDispatcher("login_fail.html").forward(request, response);
 	}
