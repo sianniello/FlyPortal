@@ -1,4 +1,4 @@
-package flightTable;
+package flights;
 
 import java.io.IOException;
 import javax.servlet.ServletConfig;
@@ -33,17 +33,16 @@ public class AddFlightServlet extends HttpServlet {
 		String flight = request.getParameter("flight");
 		String dep_airport = request.getParameter("dep_airport");
 		String arr_airport = request.getParameter("arr_airport");
-		
+
 		String dep_time = request.getParameter("dep_time");
-		
+
 		String company = request.getParameter("company");
 		String state = request.getParameter("state");
 		int free_seats = Integer.parseInt(request.getParameter("free_seats"));
-		
-		afb.addFlight(new Flight(flight, dep_airport, arr_airport, dep_time, company, state, free_seats));
-		
-		request.getRequestDispatcher("addFlightSuccess.html").forward(request, response);
-		
+
+		if(afb.addFlight(new Flight(flight, dep_airport, arr_airport, dep_time, company, state, free_seats)))
+			request.getRequestDispatcher("flights/addFlightSuccess.html").forward(request, response);
+
 	}
 
 }

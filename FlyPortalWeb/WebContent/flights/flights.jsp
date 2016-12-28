@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@page import="flights.FlightsBean"%>
+<%@page import="flights.DeleteFlightBeanLocal"%>
 <%@page import="flight.Flight"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%String auth = (String) request.getSession().getAttribute("auth"); %>
+<%
+	String auth = (String) request.getSession().getAttribute("auth");
+%>
 <jsp:useBean id="showDataBean" class="flights.FlightsBean"
+	scope="request" />
+<jsp:useBean id="delDataBean" class="flights.DeleteFlightBean"
 	scope="request" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,46 +20,71 @@
 	rel="stylesheet" type="text/css" />
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Flights table <%= auth %></title>
+<title>Flights table <%=auth%></title>
 </head>
 <body>
 	<%
 		LinkedList<Flight> list = new LinkedList<Flight>();
-			list = showDataBean.getFlights();
-			pageContext.setAttribute("list", list);
+		list = showDataBean.getFlights();
+		pageContext.setAttribute("list", list);
 	%>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="../login.html">Fly Portal</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="flights.jsp">Flights table</a></li>
+				
+				<%if(request.getSession().getAttribute("auth").equals("admin")) 
+				out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
+				out.println("<li><a href='#'>Transactions</a></li>");
+				%>
+				
+			</ul>
+		</div>
+	</nav>
 	<div class="container">
 		<div class="panel panel-primary pt-2">
 			<div class="panel-heading">
-				<h3 class="panel-title">Panel title</h3>
+				<h3 class="panel-title">Flight Table</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Flight</th>
-							<th>Departure airport</th>
-							<th>Arrival airport</th>
-							<th>Departure time</th>
-							<th>Company</th>
-							<th>State</th>
-							<th>Free seats</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${list}" var="item">
+				<form action="../DeleteFlightServlet" method="post">
+					<table class="table table-striped">
+						<thead>
 							<tr>
-								<td>${item.getFlight()}</td>
-								<td>${item.getDepAirport()}</td>
-								<td>${item.getArrAirport()}</td>
-								<td>${item.getDepTime()}</td>
-								<td>${item.getCompany()}</td>
-								<td>${item.getState()}</td>
-								<td>${item.getFreeSeats()}</td>
+								<th>Flight</th>
+								<th>Departure airport</th>
+								<th>Arrival airport</th>
+								<th>Departure time</th>
+								<th>Company</th>
+								<th>State</th>
+								<th>Free seats</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<c:forEach items="${list}" var="item">
+								<tr>
+									<td>${item.getFlight()}</td>
+									<td>${item.getDepAirport()}</td>
+									<td>${item.getArrAirport()}</td>
+									<td>${item.getDepTime()}</td>
+									<td>${item.getCompany()}</td>
+									<td>${item.getState()}</td>
+									<td>${item.getFreeSeats()}</td>
+									<td><input name="flight" value="${item.getFlight()}" type="hidden"/></td>
+									<%
+										if(auth == "admin" )
+																								out.print("<td>" +
+																								"<button type='submit' class='btn btn-danger'>" +
+																								"<span class='glyphicon glyphicon-remove'></span></button></form></td>");
+									%>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</form>
 			</div>
 		</div>
 	</div>

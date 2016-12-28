@@ -1,4 +1,4 @@
-package flightTable;
+package flights;
 
 import java.io.IOException;
 

@@ -21,6 +21,10 @@ public class Flight {
 		this.freeSeats = freeSeats;
 	}
 	
+	public Flight(String flight) {
+		this.flight = flight;
+	}
+	
 	public  String getFlight() {
 		return flight;
 	}

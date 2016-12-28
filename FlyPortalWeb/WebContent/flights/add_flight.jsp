@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page import="java.util.*"%>
+<%@page import="flyPortalData.*"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -36,6 +38,14 @@
 </head>
 
 <body>
+	<%
+		LinkedList<Airport> airportsList = new LinkedList<Airport>();
+		LinkedList<String> airlinesList = new LinkedList<String>();
+			airportsList = FlyPortalData.getAirports();
+			airlinesList = FlyPortalData.getAirlines();
+			pageContext.setAttribute("airportsList", airportsList);
+			pageContext.setAttribute("airlinesList", airlinesList);
+	%>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -51,30 +61,24 @@
 						<label for="dep_airport">Departure airport</label> <select
 							class="form-control" id="dep_airport" name="dep_airport" required>
 							<option></option>
-							<option>Catania Fontanarossa</option>
-							<option>Roma Fiumicino</option>
-							<option>Milano Malpensa</option>
-							<option>Palermo Punta Raisi</option>
-							<option>London Gatwick</option>
-							<option>New York JFK</option>
+							<c:forEach items="${airportsList}" var="value">
+								<option value="${value.getCity()} ${value.getName()}">${value.getCity()} - ${value.getName()}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="arr_airport">Arrival airport</label> <select
 							class="form-control" id="arr_airport" name="arr_airport" required>
 							<option></option>
-							<option>Catania Fontanarossa</option>
-							<option>Roma Fiumicino</option>
-							<option>Milano Malpensa</option>
-							<option>Palermo Punta Raisi</option>
-							<option>London Gatwick</option>
-							<option>New York JFK</option>
+							<c:forEach items="${airportsList}" var="value">
+								<option value="${value.getCity()} ${value.getName()}">${value.getCity()} - ${value.getName()}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="datetimepicker1">Departure time</label>
 						<div class='input-group date' id='datetimepicker1'>
-							<input type='text' class="form-control" name="dep_time"/> <span
+							<input type='text' class="form-control" name="dep_time" /> <span
 								class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
 							</span>
@@ -82,7 +86,7 @@
 						<script type="text/javascript">
 							$(function() {
 								$('#datetimepicker1').datetimepicker({
-									format: 'YYYY-MM-DD HH:mm:ss'
+									format : 'YYYY-MM-DD HH:mm:ss'
 								});
 							});
 						</script>
@@ -91,14 +95,9 @@
 						<label for="company">Company</label> <select class="form-control"
 							id="company" name="company">
 							<option></option>
-							<option>Ryanair</option>
-							<option>Alitalia</option>
-							<option>Air Berlin</option>
-							<option>Blu express</option>
-							<option>Aeroflot</option>
-							<option>Volotea</option>
-							<option>Fly Emirates</option>
-							<option>Meridiana</option>
+							<c:forEach items="${airlinesList}" var="value">
+								<option value="${value}">${value}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">
