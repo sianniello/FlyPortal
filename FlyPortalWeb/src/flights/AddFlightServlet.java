@@ -39,8 +39,9 @@ public class AddFlightServlet extends HttpServlet {
 		String company = request.getParameter("company");
 		String state = request.getParameter("state");
 		int free_seats = Integer.parseInt(request.getParameter("free_seats"));
+		double price = Integer.parseInt(request.getParameter("price"));
 
-		if(afb.addFlight(new Flight(flight, dep_airport, arr_airport, dep_time, company, state, free_seats)))
+		if(afb.addFlight(new Flight(flight, dep_airport, arr_airport, dep_time, company, state, free_seats, price)))
 			request.getRequestDispatcher("flights/addFlightSuccess.html").forward(request, response);
 
 	}

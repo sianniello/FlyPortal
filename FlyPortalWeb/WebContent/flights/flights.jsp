@@ -18,8 +18,35 @@
 <link
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	$(document)
+			.ready(
+					function() {
+						$(".btn.btn-warning")
+								.click(
+										function() {
+											var f = $(this).attr('id');
+											if (confirm("Are you sure you want to book a seat on flight "
+													+ f + "?"))
+												BookingServletCall(f);
+										});
+					});
+	function BookingServletCall(f) {
+		$.post("../BookingFlightServlet", {
+			flight : f
+		}, function(data) {
+			alert(data);
+			$("#flightsTable").load(window.location + " #flightsTable");
+		});
+	};
+</script>
+
 <title>Flights table <%=auth%></title>
 </head>
 <body>
@@ -35,12 +62,22 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="flights.jsp">Flights table</a></li>
-				
-				<%if(request.getSession().getAttribute("auth").equals("admin")) 
-				out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
-				out.println("<li><a href='#'>Transactions</a></li>");
+
+				<%
+					if(request.getSession().getAttribute("auth").equals("admin")) {
+						out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
+						out.println("<li><a href='#'>Transactions</a></li>");
+					}
 				%>
-				
+
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<%
+					if(auth.equals("user")) 
+				out.println("<li><a href='cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+					if(auth.equals("admin")||auth.equals("user")) 
+						out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
+				%>
 			</ul>
 		</div>
 	</nav>
@@ -50,41 +87,37 @@
 				<h3 class="panel-title">Flight Table</h3>
 			</div>
 			<div class="panel-body">
-				<form action="../DeleteFlightServlet" method="post">
-					<table class="table table-striped">
-						<thead>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Flight</th>
+							<th>Departure airport</th>
+							<th>Arrival airport</th>
+							<th>Departure time</th>
+							<th>Company</th>
+							<th>State</th>
+							<th>Free seats</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${list}" var="item">
 							<tr>
-								<th>Flight</th>
-								<th>Departure airport</th>
-								<th>Arrival airport</th>
-								<th>Departure time</th>
-								<th>Company</th>
-								<th>State</th>
-								<th>Free seats</th>
+								<td>${item.getFlight()}</td>
+								<td>${item.getDepAirport()}</td>
+								<td>${item.getArrAirport()}</td>
+								<td>${item.getDepTime()}</td>
+								<td>${item.getCompany()}</td>
+								<td>${item.getState()}</td>
+								<td>${item.getFreeSeats()}</td>
+								<td><button
+										class="btn btn-warning<%if(auth != "user")out.println(" hidden"); %>"
+										id="${item.getFlight()}">
+										<span class='glyphicon glyphicon-shopping-cart'> </span>
+									</button></td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${list}" var="item">
-								<tr>
-									<td>${item.getFlight()}</td>
-									<td>${item.getDepAirport()}</td>
-									<td>${item.getArrAirport()}</td>
-									<td>${item.getDepTime()}</td>
-									<td>${item.getCompany()}</td>
-									<td>${item.getState()}</td>
-									<td>${item.getFreeSeats()}</td>
-									<td><input name="flight" value="${item.getFlight()}" type="hidden"/></td>
-									<%
-										if(auth == "admin" )
-																								out.print("<td>" +
-																								"<button type='submit' class='btn btn-danger'>" +
-																								"<span class='glyphicon glyphicon-remove'></span></button></form></td>");
-									%>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</form>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

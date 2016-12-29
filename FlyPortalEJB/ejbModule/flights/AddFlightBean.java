@@ -27,9 +27,10 @@ public class AddFlightBean {
 		Connection con = null;
 		String url = "jdbc:mysql://localhost:3306/";;
 		String db = "fly_portal";
-		String query = "INSERT INTO flights (flight, dep_airport, arr_airport, dep_time, company, state, free_seats) "
+		String query = "INSERT INTO flights (flight, dep_airport, arr_airport, dep_time, company, state, free_seats, seat_price) "
 				+ "VALUES ('" + f.getFlight() + "', '" + f.getDepAirport() + "', '" + f.getArrAirport() + "', '" + 
-				f.getDepTime() + "', '" + f.getCompany() + "', '" + f.getState() + "', '" + f.getFreeSeats() + "');";
+				f.getDepTime() + "', '" + f.getCompany() + "', '" + f.getState() + "', '" + f.getFreeSeats() + "', '" +
+				f.getPrice() + "');";
 
 		try{
 			Class.forName("com.mysql.jdbc.Driver");

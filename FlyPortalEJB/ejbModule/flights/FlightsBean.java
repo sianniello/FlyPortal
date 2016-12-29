@@ -46,7 +46,7 @@ public class FlightsBean {
 			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				System.out.println("hello " + rs.toString());
-				flights.add(new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), Integer.parseInt(rs.getString(8))));
+				flights.add(new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), Integer.parseInt(rs.getString(8)), Double.parseDouble(rs.getString(9))));
 				System.out.println(flights);
 			}
 		} catch (SQLException | ClassNotFoundException e) {

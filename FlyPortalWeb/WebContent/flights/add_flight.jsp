@@ -40,12 +40,29 @@
 <body>
 	<%
 		LinkedList<Airport> airportsList = new LinkedList<Airport>();
-		LinkedList<String> airlinesList = new LinkedList<String>();
-			airportsList = FlyPortalData.getAirports();
-			airlinesList = FlyPortalData.getAirlines();
-			pageContext.setAttribute("airportsList", airportsList);
-			pageContext.setAttribute("airlinesList", airlinesList);
+			LinkedList<String> airlinesList = new LinkedList<String>();
+		airportsList = FlyPortalData.getAirports();
+		airlinesList = FlyPortalData.getAirlines();
+		pageContext.setAttribute("airportsList", airportsList);
+		pageContext.setAttribute("airlinesList", airlinesList);
 	%>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="../login.html">Fly Portal</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="admin_flights.jsp">Flights
+						table</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<%
+					if(request.getSession().getAttribute("auth").equals("admin")||request.getSession().getAttribute("auth").equals("user")) 
+																					out.println("<li><a href='../LogoutServlet'>logout</a></li>");
+				%>
+			</ul>
+		</div>
+	</nav>
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -62,7 +79,8 @@
 							class="form-control" id="dep_airport" name="dep_airport" required>
 							<option></option>
 							<c:forEach items="${airportsList}" var="value">
-								<option value="${value.getCity()} ${value.getName()}">${value.getCity()} - ${value.getName()}</option>
+								<option value="${value.getCity()} ${value.getName()}">${value.getCity()}
+									- ${value.getName()}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -71,7 +89,8 @@
 							class="form-control" id="arr_airport" name="arr_airport" required>
 							<option></option>
 							<c:forEach items="${airportsList}" var="value">
-								<option value="${value.getCity()} ${value.getName()}">${value.getCity()} - ${value.getName()}</option>
+								<option value="${value.getCity()} ${value.getName()}">${value.getCity()}
+									- ${value.getName()}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -113,6 +132,11 @@
 						<label for="free_seats">Free seats</label> <input
 							class="form-control" type="number" value="0" id="free_seats"
 							name="free_seats" />
+					</div>
+					<div class="form-group">
+						<label for="free_seats">Seat's price</label> <input
+							class="form-control" type="number" value="0" id="price"
+							name="price" />
 					</div>
 					<button type="submit" class="btn btn-success">Submit</button>
 					<button class="btn btn-danger" onclick="resetField()">Reset</button>

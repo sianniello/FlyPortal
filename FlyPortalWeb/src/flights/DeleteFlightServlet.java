@@ -30,11 +30,16 @@ public class DeleteFlightServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getParameter("flight"));
+		response.setContentType("text/plain");
 		try {
-			if(dfb.deleteFlight(request.getParameter("flight")))
-				request.getRequestDispatcher("flights/delete_success.html").forward(request, response);
-			else
-				request.getRequestDispatcher("flights/delete_fail.html").forward(request, response);
+			if(dfb.deleteFlight(request.getParameter("flight"))) {
+				//request.getRequestDispatcher("flights/delete_success.html").forward(request, response);
+				response.getWriter().write("Flight " + request.getParameter("flight") + " removed!");
+			}
+			else {
+				//request.getRequestDispatcher("flights/delete_fail.html").forward(request, response);
+				response.getWriter().write("fail");
+			}
 		} catch (FlightException e) {
 			e.printStackTrace();
 		}

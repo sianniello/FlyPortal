@@ -10,6 +10,7 @@ public class Flight {
 	private String company;
 	private String state;
 	private int freeSeats;
+	private double price;
 	
 	public Flight(String flight, String depAirport, String arrAirport, String depTime, String company, String state, int freeSeats) {
 		this.flight = flight;
@@ -21,6 +22,19 @@ public class Flight {
 		this.freeSeats = freeSeats;
 	}
 	
+	public Flight(String flight, String depAirport, String arrAirport,
+			String depTime, String company, String state, int freeSeats,
+			double price) {
+		this.flight = flight;
+		this.depAirport = depAirport;
+		this.arrAirport = arrAirport;
+		this.depTime = depTime;
+		this.company = company;
+		this.state = state;
+		this.freeSeats = freeSeats;
+		this.price = price;
+	}
+
 	public Flight(String flight) {
 		this.flight = flight;
 	}
@@ -62,6 +76,14 @@ public class Flight {
 	
 	public int getFreeSeats() {
 		return freeSeats;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public String toString() {

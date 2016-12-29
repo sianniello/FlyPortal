@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 		if(lb.login(new User(request.getParameter("username"), request.getParameter("password")), request.getParameter("optradio"))) {
 			HttpSession session = request.getSession();
 			session.setAttribute("auth", (request.getParameter("optradio").equals("admin")? "admin" : "user"));
-			request.getRequestDispatcher("index.html").forward(request, response);
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		else
 			request.getRequestDispatcher("login_fail.html").forward(request, response);
