@@ -62,10 +62,11 @@ public class CartServlet extends HttpServlet {
 				else cart.remove(flight);
 				response.getWriter().println("correctly removed");
 			}
-			if (cart.size() == 0)
-				request.getSession().setAttribute("cart", null);
 			else
 				response.getWriter().println("not found in cart");
+
+			if (cart.size() == 0)
+				request.getSession().setAttribute("cart", null);
 			break;
 		}
 	}

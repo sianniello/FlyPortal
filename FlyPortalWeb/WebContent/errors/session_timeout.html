@@ -1,0 +1,59 @@
+<html>
+<head>
+<!-- START: CSS Data -->
+<style>
+div#message-timeout {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	z-index: 1050;
+}
+
+div#timeout-warning {
+	background: #f7941e;
+	border: 3px solid #f0ad4e;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	padding: 10px;
+}
+
+div#timeout-error {
+	background: red;
+	border: 3px solid #f0ad4e;
+	color: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	padding: 10px;
+}
+</style>
+<!-- END: CSS Data -->
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<title>Session Timeout Template</title>
+<body>
+
+
+
+	<!-- START: HTML Data -->
+	<div id="message-timeout">
+		<div id="timeout-warning" style="display: none;">
+			<strong>Warning:</strong> You will be logged off in <strong
+				id="timeoutCounter">0</strong> seconds due to inactivity.
+
+			<button class="SessionRefresh">Click here to stay logged in.</button>
+		</div>
+		<div id="timeout-error" style="display: none;">
+			<strong>Your session has expired due to inactivity.</strong>
+		</div>
+	</div>
+	<a href="../login.html">login</a>
+	<!-- END: HTML Data -->
+
+	<!-- Start: JS Data -->
+	
+	<!-- END: JS Data -->
+
+</body>
+</html>

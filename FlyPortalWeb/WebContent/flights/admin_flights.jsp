@@ -77,6 +77,11 @@ auth = (String) request.getSession().getAttribute("auth");
 </head>
 <body>
 	<%
+	if(auth == null){
+        session.setAttribute("message", "Please Login");
+         response.sendRedirect(response.encodeRedirectURL("../errors" + "/" + "session_timeout.html"));
+    }
+	
 		LinkedList<Flight> list = new LinkedList<Flight>();
 		list = showDataBean.getFlights();
 		pageContext.setAttribute("list", list);
@@ -119,30 +124,30 @@ auth = (String) request.getSession().getAttribute("auth");
 					<tbody>
 						<c:forEach items="${list}" var="item">
 							<tr>
-								<td><input id="${item.getFlight()}mod" type="text" 
+								<td><input id="${item.getFlight()}mod" type="text"
 									value="${item.getFlight()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}dep_air" type="text"
 									value="${item.getDepAirport()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}arr_air" type="text"
 									value="${item.getArrAirport()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}dep_time" type="text"
 									value="${item.getDepTime()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}comp" type="text"
 									value="${item.getCompany()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}state" type="text"
 									value="${item.getState()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}fseat" type="text"
 									value="${item.getFreeSeats()}" /></td>
-									
+
 								<td><input id="${item.getFlight()}prc" type="text"
 									value="${item.getPrice()}" />&euro;</td>
-									
+
 								<td>
 									<div class="btn-group" role="group">
 										<button class='btn btn-success' id="${item.getFlight()}">
