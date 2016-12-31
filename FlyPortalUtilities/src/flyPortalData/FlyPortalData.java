@@ -12,7 +12,7 @@ public class FlyPortalData {
 	static FileReader fr = null;
 
 	public static LinkedList<Airport> getAirports() {
-		final String FILENAME = "C:\\Users\\Stefano\\Downloads\\airports.dat";
+		final String FILENAME = "C://Users//Stefano//git//FlyPortal//FlyPortalUtilities//resources//airports.dat";
 		LinkedList<Airport> airportsList = new LinkedList<Airport>();
 		try {
 
@@ -47,7 +47,7 @@ public class FlyPortalData {
 	}
 
 	public static LinkedList<String> getAirlines() {
-		final String FILENAME = "C:\\Users\\Stefano\\Downloads\\airlines.dat";
+		final String FILENAME = "C://Users//Stefano//git//FlyPortal//FlyPortalUtilities//resources//airlines.dat";
 		LinkedList<String> airlinesList = new LinkedList<String>();
 		try {
 

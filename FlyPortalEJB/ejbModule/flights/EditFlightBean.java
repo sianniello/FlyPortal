@@ -24,14 +24,14 @@ public class EditFlightBean implements EditFlightBeanLocal {
 	}
 
 	@Override
-	public boolean editFlight(Flight f) {
+	public boolean editFlight(Flight f, String prec) {
 		Connection con = null;
-		String url = "jdbc:mysql://localhost:3306/";;
+		String url = "jdbc:mysql://localhost:3306/";
 		String db = "fly_portal";
 		String query = "UPDATE flights SET flight='" + f.getFlight() + "', dep_airport='" + f.getDepAirport() + "', "
 				+ "arr_airport='" + f.getArrAirport() + "', dep_time='" + f.getDepTime() + "', " 
 				+ "company='" + f.getCompany() + "', state='" + f.getState() + "', free_seats='" + f.getFreeSeats() + "', "
-				+ "seat_price='" + f.getPrice() + "' WHERE flight='" +  f.getFlight()  + "';";
+				+ "seat_price='" + f.getPrice() + "' WHERE flight='" + prec + "';";
 
 		try{
 			Class.forName("com.mysql.jdbc.Driver");

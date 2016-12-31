@@ -30,6 +30,10 @@ auth = (String) request.getSession().getAttribute("auth");
 
 <script>
 	$(document).ready(function() {
+		var input = document.querySelectorAll('input');
+		for(i=0; i<input.length; i++){
+		    input[i].setAttribute('size',input[i].getAttribute('value').length);
+		}
 		$(".btn.btn-danger").click(function() {
 			var f = $(this).attr('id');
 			if (confirm("Are you sure you want to delete flight " + f + "?"))
@@ -37,6 +41,7 @@ auth = (String) request.getSession().getAttribute("auth");
 		});
 		$(".btn.btn-success").click(function() {
 			var f = $(this).attr('id');
+			var fm = $("#" + f + "mod").val();
 			var da = $("#" + f + "dep_air").val();
 			var aa = $("#" + f + "arr_air").val();
 			var dt = $("#" + f + "dep_time").val();
@@ -45,7 +50,7 @@ auth = (String) request.getSession().getAttribute("auth");
 			var fs = $("#" + f + "fseat").val();
 			var pr = $("#" + f + "prc").val();
 			if (confirm("Confirm flight " + f + " changes?")) {
-				editServletCall(f, da, aa, dt, co, st, fs, pr);
+				editServletCall(f, da, aa, dt, co, st, fs, pr, fm);
 			}
 		});
 	});
@@ -57,13 +62,13 @@ auth = (String) request.getSession().getAttribute("auth");
 			$("#flightsTable").load(window.location + " #flightsTable");
 		});
 	};
-	function editServletCall(f, da, aa, dt, co, st, fs, pr) {
+	function editServletCall(f, da, aa, dt, co, st, fs, pr, fm) {
 		$.post("../EditFlightServlet", {
 			flight : f + "#" + da + "#" + aa + "#" + dt + "#" + co + "#" + st
-					+ "#" + fs + "#" + pr
+					+ "#" + fs + "#" + pr + "#" + fm
 		}, function(data) {
 			alert(data);
-			$("#flightsTable").load(window.location + " #flightsTable");
+			location.reload();
 		});
 	};
 </script>
@@ -87,14 +92,11 @@ auth = (String) request.getSession().getAttribute("auth");
 						flight</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<%
-					if(request.getSession().getAttribute("auth").equals("admin")||request.getSession().getAttribute("auth").equals("user")) 
-																					out.println("<li><a href='../LogoutServlet'>logout</a></li>");
-				%>
+				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>
 			</ul>
 		</div>
 	</nav>
-	<div class="container">
+	<div class="container col-lg-12">
 		<div class="panel panel-primary pt-2">
 			<div class="panel-heading">
 				<h3 class="panel-title">Flight Table</h3>
@@ -117,23 +119,31 @@ auth = (String) request.getSession().getAttribute("auth");
 					<tbody>
 						<c:forEach items="${list}" var="item">
 							<tr>
-								<td><input id="" type="text" value="${item.getFlight()}"
-									size="4" /></td>
+								<td><input id="${item.getFlight()}mod" type="text" 
+									value="${item.getFlight()}" /></td>
+									
 								<td><input id="${item.getFlight()}dep_air" type="text"
 									value="${item.getDepAirport()}" /></td>
+									
 								<td><input id="${item.getFlight()}arr_air" type="text"
 									value="${item.getArrAirport()}" /></td>
+									
 								<td><input id="${item.getFlight()}dep_time" type="text"
-									value="${item.getDepTime()}" size="15" /></td>
+									value="${item.getDepTime()}" /></td>
+									
 								<td><input id="${item.getFlight()}comp" type="text"
-									value="${item.getCompany()}" size="6" /></td>
+									value="${item.getCompany()}" /></td>
+									
 								<td><input id="${item.getFlight()}state" type="text"
-									value="${item.getState()}" size="4" /></td>
+									value="${item.getState()}" /></td>
+									
 								<td><input id="${item.getFlight()}fseat" type="text"
-									value="${item.getFreeSeats()}" size="1" /></td>
-								<td class="col-md-2"><input id="${item.getFlight()}prc"
-									type="text" value="${item.getPrice()}" size="2" />&euro;</td>
-								<td class="col-md-2">
+									value="${item.getFreeSeats()}" /></td>
+									
+								<td><input id="${item.getFlight()}prc" type="text"
+									value="${item.getPrice()}" />&euro;</td>
+									
+								<td>
 									<div class="btn-group" role="group">
 										<button class='btn btn-success' id="${item.getFlight()}">
 											<span class='glyphicon glyphicon-ok'></span>

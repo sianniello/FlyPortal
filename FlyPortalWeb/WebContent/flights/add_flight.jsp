@@ -3,7 +3,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.util.*"%>
-<%@page import="flyPortalData.*"%>
+<%@page import="flyPortalData.FlyPortalData"%>
+<%@page import="flyPortalData.Airport"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -72,7 +73,7 @@
 				<form action="../AddFlightServlet" method="post" id="addFlightForm">
 					<div class="form-group">
 						<label for="flight">Flight</label> <input type="text"
-							class="form-control" id="flight" name="flight" required />
+							class="form-control" id="flight" name="flight" required style="text-transform:uppercase"/>
 					</div>
 					<div class="form-group">
 						<label for="dep_airport">Departure airport</label> <select
@@ -134,7 +135,7 @@
 							name="free_seats" />
 					</div>
 					<div class="form-group">
-						<label for="free_seats">Seat's price</label> <input
+						<label for="free_seats">Seat's price &euro;</label> <input
 							class="form-control" type="number" value="0" id="price"
 							name="price" />
 					</div>
@@ -144,6 +145,11 @@
 						function resetField() {
 							document.forms['addFlightForm'].reset();
 						}
+					</script>
+					<script>
+					$("#flight").keyup(function(){
+						$(this).val($(this).toUpperCase());
+					});
 					</script>
 				</form>
 			</div>

@@ -25,20 +25,16 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-	$(document)
-			.ready(
-					function() {
-						$(".btn.btn-warning")
-								.click(
-										function() {
-											var f = $(this).attr('id');
-											if (confirm("Are you sure you want to book a seat on flight "
-													+ f + "?"))
-												BookingServletCall(f);
-										});
-					});
-	function BookingServletCall(f) {
-		$.post("../BookingFlightServlet", {
+	$(document).ready(function() {
+		$(".btn.btn-warning").click(function() {
+			var f = $(this).attr('id');
+			if (confirm("Are you sure you want to book a seat on flight " + f + "?"))
+				CartServletCall(f);
+		});
+	});
+	function CartServletCall(f) {
+		$.post("../CartServlet", {
+			operation: "add",
 			flight : f
 		}, function(data) {
 			alert(data);
@@ -52,8 +48,8 @@
 <body>
 	<%
 		LinkedList<Flight> list = new LinkedList<Flight>();
-		list = showDataBean.getFlights();
-		pageContext.setAttribute("list", list);
+			list = showDataBean.getFlights();
+			pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -65,18 +61,18 @@
 
 				<%
 					if(request.getSession().getAttribute("auth").equals("admin")) {
-						out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
-						out.println("<li><a href='#'>Transactions</a></li>");
-					}
+								out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
+								out.println("<li><a href='#'>Transactions</a></li>");
+							}
 				%>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
 					if(auth.equals("user")) 
-				out.println("<li><a href='cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
-					if(auth.equals("admin")||auth.equals("user")) 
-						out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
+						out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+							if(auth.equals("admin")||auth.equals("user")) 
+								out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
 				%>
 			</ul>
 		</div>
@@ -97,6 +93,7 @@
 							<th>Company</th>
 							<th>State</th>
 							<th>Free seats</th>
+							<th>Price &euro;</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -109,6 +106,7 @@
 								<td>${item.getCompany()}</td>
 								<td>${item.getState()}</td>
 								<td>${item.getFreeSeats()}</td>
+								<td>${item.getPrice()}</td>
 								<td><button
 										class="btn btn-warning<%if(auth != "user")out.println(" hidden"); %>"
 										id="${item.getFlight()}">

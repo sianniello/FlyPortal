@@ -33,7 +33,8 @@ public class EditFlightServlet extends HttpServlet {
 		String flight = request.getParameter("flight");
 		String aux[] = flight.split("#");
 		request.setAttribute("flight", aux[0]);
-		if(efb.editFlight(new Flight(aux[0],aux[1],aux[2],aux[3],aux[4],aux[5],Integer.parseInt(aux[6]),Double.parseDouble(aux[7]))))
+		if(efb.editFlight(new Flight(aux[8],aux[1],aux[2],aux[3],aux[4],aux[5],
+				Integer.parseInt(aux[6]),Double.parseDouble(aux[7])), aux[0]))
 			response.getWriter().write("Flight " + request.getAttribute("flight") + " modified!");
 		else
 			response.getWriter().write("Flight " + request.getAttribute("flight") + " not modified!");

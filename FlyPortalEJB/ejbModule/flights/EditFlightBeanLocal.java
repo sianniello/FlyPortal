@@ -7,6 +7,6 @@ import flight.Flight;
 @Local
 public interface EditFlightBeanLocal {
 
-	boolean editFlight(Flight f);
+	boolean editFlight(Flight f, String prec);
 	
 }
