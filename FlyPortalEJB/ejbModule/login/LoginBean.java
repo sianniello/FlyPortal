@@ -36,7 +36,6 @@ public class LoginBean implements LoginBeanLocal {
 		String url = "jdbc:mysql://localhost:3306/";;
 		String db = "fly_portal";
 		String query = "SELECT * FROM " + (s.equals("user")? "users" : "db_managers") + " WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
-		System.out.println(query);
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url+db,"admin","password");
@@ -47,7 +46,6 @@ public class LoginBean implements LoginBeanLocal {
 				return true;
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
 			return false;
 		}
 		return false;

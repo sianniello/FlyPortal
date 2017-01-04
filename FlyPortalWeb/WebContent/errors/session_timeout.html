@@ -31,29 +31,21 @@ div#timeout-error {
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<title>Session Timeout Template</title>
+<title>Session Timeout</title>
 <body>
 
 
 
 	<!-- START: HTML Data -->
-	<div id="message-timeout">
-		<div id="timeout-warning" style="display: none;">
-			<strong>Warning:</strong> You will be logged off in <strong
-				id="timeoutCounter">0</strong> seconds due to inactivity.
-
-			<button class="SessionRefresh">Click here to stay logged in.</button>
-		</div>
-		<div id="timeout-error" style="display: none;">
-			<strong>Your session has expired due to inactivity.</strong>
-		</div>
+	<div class="container">
+		<strong>Warning:</strong> You will be logged off in <strong
+			id="timeoutCounter">0</strong> seconds due to inactivity.
+	</div>
+	<div id="timeout-error" style="display: none;">
+		<strong>Your session has expired due to inactivity.</strong>
 	</div>
 	<a href="../login.html">login</a>
 	<!-- END: HTML Data -->
-
-	<!-- Start: JS Data -->
-	
-	<!-- END: JS Data -->
 
 </body>
 </html>

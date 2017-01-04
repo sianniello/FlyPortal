@@ -1,18 +1,10 @@
 package booking;
 
-import java.util.TreeMap;
-
-import flight.Flight;
-import flight.FlightException;
+import order.Order;
+import user.User;
 
 public interface BookingBeanLocal {
 
-	void initialize();
-
-	void addFlight(Flight f);
-
-	void removeFlight(String flight) throws FlightException;
-	
-	TreeMap<String, Flight> getBooking();
+	boolean addBooking(Order order);
 	
 }

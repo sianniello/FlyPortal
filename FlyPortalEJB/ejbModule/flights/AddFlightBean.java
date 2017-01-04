@@ -1,12 +1,11 @@
 package flights;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import database.DatabaseException;
+import replica.ReplicaManagerBean;
+import replica.ReplicaManagerBeanLocal;
 import flight.Flight;
 
 /**
@@ -16,31 +15,26 @@ import flight.Flight;
 @LocalBean
 public class AddFlightBean {
 
-    /**
-     * Default constructor. 
-     */
-    public AddFlightBean() {
-        // TODO Auto-generated constructor stub
-    }
-    
-    public boolean addFlight(Flight f) {
-		Connection con = null;
-		String url = "jdbc:mysql://localhost:3306/";;
-		String db = "fly_portal";
+	private ReplicaManagerBeanLocal rm;
+	/**
+	 * Default constructor. 
+	 */
+	public AddFlightBean() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean addFlight(Flight f) {
+		rm = new ReplicaManagerBean();
+		rm.init();
 		String query = "INSERT INTO flights (flight, dep_airport, arr_airport, dep_time, company, state, free_seats, seat_price) "
 				+ "VALUES ('" + f.getFlight() + "', '" + f.getDepAirport() + "', '" + f.getArrAirport() + "', '" + 
 				f.getDepTime() + "', '" + f.getCompany() + "', '" + f.getState() + "', '" + f.getFreeSeats() + "', '" +
 				f.getPrice() + "');";
-
-		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url+db,"admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 1)
+		try {
+			if(rm.executeUpdate(query))
 				return true;
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
+		} catch (DatabaseException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return false;

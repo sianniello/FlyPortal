@@ -1,17 +1,16 @@
 package booking;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.TreeMap;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 
+import database.DatabaseException;
+import replica.ReplicaManagerBean;
+import replica.ReplicaManagerBeanLocal;
 import flight.Flight;
 import flight.FlightException;
+import order.*;
 
 /**
  * Session Bean implementation class FlightsBean
@@ -20,8 +19,7 @@ import flight.FlightException;
 @LocalBean
 public class BookingBean implements BookingBeanLocal {
 
-	private TreeMap<String, Flight> flights;	//user's booked flights
-	private Statement stmt;
+	private ReplicaManagerBeanLocal rm;
 
 	/**
 	 * Default constructor. 
@@ -30,90 +28,85 @@ public class BookingBean implements BookingBeanLocal {
 	}
 
 	@Override
-	public void initialize() {
-		flights = new TreeMap<String, Flight>();
+	public boolean addBooking(Order order) {
+		String query;
+		Double total = 0.0;
+		int lid = lastOrdersId();
+		if(lid >= 0) {
+			lid++;
+			rm = new ReplicaManagerBean();
+			rm.init();
+			for(String flight : order.getCart().keySet())
+				try {
+					Flight x = check(flight, order.getCart().get(flight));
+					if(x != null) {
+						query = "INSERT INTO orders (orderID, user, flight, quantity, price) "
+								+ "VALUES ('" + (lid) + "', '" + order.getUser() + "', '" + x.getFlight() + "', "
+								+ "'" + order.getCart().get(flight) + "', '" + x.getPrice() * order.getCart().get(flight) + "')";
+						rm.executeUpdate(query);
 
-		Connection con = null;
-		String url = "jdbc:mysql://localhost:3306/";
-		String db = "FlyPortal";
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url+db,"admin","password");
-			stmt = con.createStatement();
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+						query = "UPDATE flights SET free_seats=free_seats - "+ order.getCart().get(flight) + " WHERE flight='" + flight + "';";
+						rm.executeUpdate(query);
+						total += total + (order.getCart().get(flight) * x.getPrice());
+					}
+					else throw new OrderException("Order not processable");
+				} catch (FlightException | DatabaseException | OrderException e) {
+					e.printStackTrace();
+					return false;
+				}
+			query = "INSERT INTO transactions (order_id, amount, status) VALUES ('"
+					+ lid + "', '" + total + "', 'confirmed');";
+			try {
+				rm.executeUpdate(query);
+			} catch (DatabaseException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
 		}
-	}
-
-	@Override
-	public void addFlight(Flight f) {
-		try {
-			if(check(f))
-				flights.put(f.getFlight(), f);
-		} catch (FlightException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void removeFlight(String flight) throws FlightException {
-		if(flights.containsKey(flight))
-			flights.remove(flight);
-		else throw new FlightException("Flight not present");
+		return false;
 	}
 
 	/**
 	 * 
 	 * This function check if Flight f is present in DB and if it has free seats to book.
 	 * 
-	 * @param f
+	 * @param flight
 	 * @return
 	 * @throws FlightException 
 	 */
-	private boolean check(Flight f) throws FlightException {
+	private Flight check(String flight, int qty) throws FlightException {
 
-		String query = "SELECT * FROM flight WHERE flight ='" + f.getFlight() + 
-				" AND free_seats > 0' AND DATE_ADD(dep_time, INTERVAL 6 HOUR) > CURDATE();";
-
+		String query = "SELECT * FROM flights WHERE flight ='" + flight + 
+				"' AND free_seats >= '" + qty + "' AND DATE_ADD(dep_time, INTERVAL 6 HOUR) > CURDATE();";
+		rm = new ReplicaManagerBean();
+		rm.init();
 		try{
-			ResultSet rs = stmt.executeQuery(query);
+			ResultSet rs = rm.executeQuery(query);
 
 			if(rs.next())
-				return true;
+				return new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getDouble(9));
+			else return null;
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		throw new FlightException("Flight not present");
 	}
 
-	public void buy() {
-		for(String key : flights.keySet()) {
-			try {
-				if(check(flights.get(key))) {
-					String query = "UPDATE flights SET free_seats = free_seats - 1 WHERE flight='" + flights.get(key).getFlight() + "';";
-					stmt.executeUpdate(query);
-				}
-			} catch (FlightException | SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void buy(Flight f, int seats) {
+	private int lastOrdersId() {
+		String query = "SELECT MAX(orderID) FROM orders";
+		rm = new ReplicaManagerBean();
+		rm.init();
 		try {
-			if(check(f)) {
-				String query = "UPDATE flights SET free_seats = free_seats - " + seats + " WHERE flight='" + f.getFlight() + "';";
-				stmt.executeUpdate(query);
-			} 
-		}catch (SQLException | FlightException e) {
+			ResultSet rs = rm.executeQuery(query);
+			if(rs.next())
+				return rs.getInt(1);
+		} catch (DatabaseException | SQLException e) {
 			e.printStackTrace();
+			return -1;
 		}
-	}
-	
-	@Override
-	public TreeMap<String, Flight> getBooking() {
-		return flights;
+		return -1;
 	}
 
 }

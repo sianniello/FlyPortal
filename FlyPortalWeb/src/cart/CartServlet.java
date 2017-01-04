@@ -29,15 +29,13 @@ public class CartServlet extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TreeMap<String, Integer> cart;
+		TreeMap<String, Integer> cart = (TreeMap<String, Integer>) request.getSession().getAttribute("cart");
 		String op = request.getParameter("operation");
-		String flight = request.getParameter("flight");
-
+		String flight;
+		
 		switch(op) {
 		case "add": 
-
-			cart = (TreeMap<String, Integer>) request.getSession().getAttribute("cart");
-
+			flight = request.getParameter("flight");
 			if(cart == null) {
 				cart = new TreeMap<>();
 			}
@@ -55,7 +53,7 @@ public class CartServlet extends HttpServlet {
 			break;
 
 		case "remove":
-			cart = (TreeMap<String, Integer>) request.getSession().getAttribute("cart");
+			flight = request.getParameter("flight");
 			if(cart.containsKey(flight)) {
 				if(cart.get(flight) > 1) 
 					cart.replace(flight, cart.get(flight) - 1);
@@ -67,6 +65,12 @@ public class CartServlet extends HttpServlet {
 
 			if (cart.size() == 0)
 				request.getSession().setAttribute("cart", null);
+			break;
+
+		case "buy":
+
+			
+			
 			break;
 		}
 	}

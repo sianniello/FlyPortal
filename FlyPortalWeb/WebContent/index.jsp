@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Insert title here</title>
+<title></title>
 </head>
 <body>
 	<p>login success!</p>

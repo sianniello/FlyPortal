@@ -1,6 +1,7 @@
 package flights;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +35,7 @@ public class FlightTableServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		InetAddress clientIP = InetAddress.getByName(request.getRemoteAddr());
 		request.setAttribute("flights", fb.getFlights());
 		request.getRequestDispatcher("flights/flights.jsp").forward(request, response);
 	}

@@ -1,12 +1,10 @@
 package flights;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import replica.ReplicaManagerBean;
+import replica.ReplicaManagerBeanLocal;
 import flight.FlightException;
 
 /**
@@ -16,6 +14,7 @@ import flight.FlightException;
 @LocalBean
 public class DeleteFlightBean implements DeleteFlightBeanLocal {
 
+	private ReplicaManagerBeanLocal rm;
 	/**
 	 * Default constructor. 
 	 */
@@ -24,20 +23,16 @@ public class DeleteFlightBean implements DeleteFlightBeanLocal {
 
 	@Override
 	public boolean deleteFlight(String f) throws FlightException {
-		Connection con = null;
-		String url = "jdbc:mysql://localhost:3306/";;
-		String db = "fly_portal";
+		rm = new ReplicaManagerBean();
+		rm.init();
 		String query = "DELETE FROM flights WHERE flight='" + f + "';";
 
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url+db,"admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 1)
+			if(rm.executeUpdate(query))
 				return true;
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			throw new FlightException("Flight not present");
 		}
 		throw new FlightException("Flight not present");

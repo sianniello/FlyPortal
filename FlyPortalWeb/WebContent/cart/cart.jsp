@@ -50,11 +50,8 @@ if(session.getAttribute("cart") != null) {
 		
 		$("#buyBtn").click(function() {
 			var cart = "${sessionScope.cart}";
-			alert(cart);
-			$.post("../CartServlet", {
-				operation : "buy",
-				cartList : cart
-			}, function(data) {
+			alert("Your cart: " + cart);
+			$.post("../BookingServlet", null, function(data) {
 				alert(data);
 			});
 		});

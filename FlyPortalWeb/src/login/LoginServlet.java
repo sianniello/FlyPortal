@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 		if(lb.login(new User(request.getParameter("username"), request.getParameter("password")), request.getParameter("optradio"))) {
 			HttpSession session = request.getSession();
 			session.setAttribute("auth", (request.getParameter("optradio").equals("admin")? "admin" : "user"));
+			session.setAttribute("username", request.getParameter("username"));
 			session.setAttribute("cart", null);
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}

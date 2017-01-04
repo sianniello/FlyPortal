@@ -93,8 +93,12 @@ auth = (String) request.getSession().getAttribute("auth");
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="add_flight.jsp"><span
-						class="glyphicon glyphicon-plane" aria-hidden="true"></span> Add
+						class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
 						flight</a></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="../transactions/transactions.jsp"><span
+						class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span> Transactions</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>
