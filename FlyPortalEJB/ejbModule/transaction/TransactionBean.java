@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -18,6 +19,7 @@ import replica.ReplicaManagerBeanLocal;
 @LocalBean
 public class TransactionBean implements TransactionBeanLocal {
 
+	@EJB
 	private ReplicaManagerBeanLocal rm;
 
 	/**

@@ -118,6 +118,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 			if(affectedRows > 0) {
 				res = true;
 			}
+			con.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			//primary = getPrimary();
@@ -133,6 +134,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 				Statement stmt = con.createStatement();
 				if(stmt.executeUpdate(query) != affectedRows)
 					throw new DatabaseException("Inconsistence on replica!");
+				con.close();
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 				replicaList.remove(db);

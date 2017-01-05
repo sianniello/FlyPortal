@@ -23,7 +23,7 @@ public class CounterServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		
+		cb = new CounterBean();
 	}
 
 	/**

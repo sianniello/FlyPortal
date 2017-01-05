@@ -1,35 +1,39 @@
-package registration;
+package visitors;
 
 import java.io.IOException;
 
 import javax.ejb.EJB;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import user.User;
+import counter.CounterBean;
+import counter.CounterBeanLocal;
 
 /**
- * Servlet implementation class RegistrationServlet
+ * Servlet implementation class VisitorServlet
  */
-@WebServlet("/RegistrationServlet")
-public class RegistrationServlet extends HttpServlet {
+@WebServlet("/VisitorServlet")
+public class VisitorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private RegistrationBean rb;
+	private CounterBeanLocal cb;
+
+	@Override
+	public void init() throws ServletException {
+	}
+
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(rb.register(new User(request.getParameter("username"), request.getParameter("password"))))
-			request.getRequestDispatcher("register_success.html").forward(request, response);
-		else
-			request.getRequestDispatcher("register_fail.html").forward(request, response);
+		System.out.println(cb.getVisitorsSet());
+		response.getWriter().write(cb.getVisitorsSet().toString());
 	}
 
 }

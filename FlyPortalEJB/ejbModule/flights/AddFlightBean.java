@@ -1,5 +1,6 @@
 package flights;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -15,6 +16,7 @@ import flight.Flight;
 @LocalBean
 public class AddFlightBean {
 
+	@EJB
 	private ReplicaManagerBeanLocal rm;
 	/**
 	 * Default constructor. 

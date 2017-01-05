@@ -106,7 +106,7 @@ auth = (String) request.getSession().getAttribute("auth");
 		</div>
 	</nav>
 	<div class="container col-lg-12">
-		<div class="panel panel-primary pt-2">
+		<div class="panel panel-warning pt-4">
 			<div class="panel-heading">
 				<h3 class="panel-title">Flight Table</h3>
 			</div>

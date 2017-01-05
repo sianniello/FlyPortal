@@ -3,6 +3,7 @@ package order;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,13 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@EJB
 	private OrderBeanLocal ob;
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		ob = new OrderBean();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@page import="flights.FlightsBean"%>
+<%@page import="flights.FlightBeanLocal"%>
 <%@page import="flights.DeleteFlightBeanLocal"%>
 <%@page import="flight.Flight"%>
 <%@page import="java.util.*"%>
@@ -9,10 +10,6 @@
 <%
 	String auth = (String) request.getSession().getAttribute("auth");
 %>
-<jsp:useBean id="showDataBean" class="flights.FlightsBean"
-	scope="request" />
-<jsp:useBean id="delDataBean" class="flights.DeleteFlightBean"
-	scope="request" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link
@@ -25,16 +22,21 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-	$(document).ready(function() {
-		$(".btn.btn-warning").click(function() {
-			var f = $(this).attr('id');
-			if (confirm("Are you sure you want to book a seat on flight " + f + "?"))
-				CartServletCall(f);
-		});
-	});
+	$(document)
+			.ready(
+					function() {
+						$(".btn.btn-warning")
+								.click(
+										function() {
+											var f = $(this).attr('id');
+											if (confirm("Are you sure you want to book a seat on flight "
+													+ f + "?"))
+												CartServletCall(f);
+										});
+					});
 	function CartServletCall(f) {
 		$.post("../CartServlet", {
-			operation: "add",
+			operation : "add",
 			flight : f
 		}, function(data) {
 			alert(data);
@@ -46,10 +48,15 @@
 <title>Flights table <%=auth%></title>
 </head>
 <body>
+	<jsp:useBean id="showFlightsBean" class="flights.FlightsBean"
+		scope="request" />
+	<jsp:useBean id="delFlightsBean" class="flights.DeleteFlightBean"
+		scope="request" />
 	<%
 		LinkedList<Flight> list = new LinkedList<Flight>();
-			list = showDataBean.getFlights();
-			pageContext.setAttribute("list", list);
+		showFlightsBean = new FlightsBean();
+		list = showFlightsBean.getFlights();
+		pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -60,7 +67,7 @@
 				<li class="active"><a href="flights.jsp">Flights table</a></li>
 
 				<%
-					if(request.getSession().getAttribute("auth").equals("admin")) {
+					if (request.getSession().getAttribute("auth").equals("admin")) {
 								out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
 								out.println("<li><a href='#'>Transactions</a></li>");
 							}
@@ -69,9 +76,9 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
-					if(auth.equals("user")) 
-						out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
-							if(auth.equals("admin")||auth.equals("user")) 
+					if (auth.equals("user"))
+								out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+							if (auth.equals("admin") || auth.equals("user"))
 								out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
 				%>
 			</ul>

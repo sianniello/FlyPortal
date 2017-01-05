@@ -3,6 +3,7 @@ package flights;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,14 +18,14 @@ import flights.FlightsBean;
 @WebServlet("/FlightTable")
 public class FlightTableServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@EJB
 	private FlightsBean fb;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public FlightTableServlet() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
 	@Override

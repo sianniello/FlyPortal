@@ -68,7 +68,7 @@
 				<a class="navbar-brand" href="../login.html">Fly Portal</a>
 			</div>
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../flights/admin_flights.html">Flights
+				<a class="navbar-brand" href="../flights/admin_flights.jsp">Flights
 					Table</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">

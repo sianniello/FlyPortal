@@ -14,10 +14,11 @@ import javax.ejb.Singleton;
 public class CounterBean implements CounterBeanLocal {
 
 	private int counter = 1;
-	private HashSet<InetAddress> visitorsSet;
+	private HashSet<InetAddress> visitorsSet = new HashSet<>();
 
-	public void init() {
-		visitorsSet = new HashSet<>();
+	@Override
+	public HashSet<InetAddress> getVisitorsSet() {
+		return visitorsSet;
 	}
 
 	@Override

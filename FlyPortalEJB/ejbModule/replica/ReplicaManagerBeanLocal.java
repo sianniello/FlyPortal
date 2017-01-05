@@ -10,8 +10,6 @@ import database.DatabaseException;
 @Local
 public interface ReplicaManagerBeanLocal {
 
-	void init();
-
 	void addReplica(Database db) throws DatabaseException;
 
 	void removeReplica(Database db) throws DatabaseException;
@@ -23,5 +21,7 @@ public interface ReplicaManagerBeanLocal {
 	ResultSet executeQuery(String query) throws DatabaseException;
 
 	boolean executeUpdate(String query) throws DatabaseException;
+
+	void init();
 
 }

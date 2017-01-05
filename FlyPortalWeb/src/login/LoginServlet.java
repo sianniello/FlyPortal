@@ -1,7 +1,9 @@
 package login;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import counter.CounterBean;
+import counter.CounterBeanLocal;
 import user.User;
 
 /**
@@ -18,20 +22,22 @@ import user.User;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       private LoginBean lb;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	@EJB
+	private LoginBean lb;
+
+	@EJB
+	private CounterBeanLocal cb;
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() {
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		lb = new LoginBean();
 	}
 
 	/**
@@ -43,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("auth", (request.getParameter("optradio").equals("admin")? "admin" : "user"));
 			session.setAttribute("username", request.getParameter("username"));
 			session.setAttribute("cart", null);
+			cb.setCounter(InetAddress.getByName(request.getRemoteAddr()));
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		else

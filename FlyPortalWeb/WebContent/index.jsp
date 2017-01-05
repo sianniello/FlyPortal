@@ -9,8 +9,10 @@
 <body>
 	<p>login success!</p>
 	<%
-		if (request.getSession().getAttribute("auth") == "admin")
+		if (request.getSession().getAttribute("auth") == "admin") {
 			out.println("<a href='flights/admin_flights.jsp'>Flights table</a>");
+			out.println("<a href='visitors.html'>Visitors list</a>");
+		}
 		else
 			out.println("<a href='flights/flights.jsp'>Flights table</a>");
 	%>

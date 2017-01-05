@@ -53,6 +53,8 @@ if(session.getAttribute("cart") != null) {
 			alert("Your cart: " + cart);
 			$.post("../BookingServlet", null, function(data) {
 				alert(data);
+				$("#cartTable > tbody").html("");
+				$("#buyBtn").hide();
 			});
 		});
 		

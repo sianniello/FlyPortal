@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.swing.RepaintManager;
 
 import database.DatabaseException;
 import replica.ReplicaManagerBean;
@@ -22,6 +24,8 @@ import flight.FlightException;
 public class FlightsBean implements FlightBeanLocal{
 
 	public LinkedList<Flight> flights;
+	
+	@EJB
 	private ReplicaManagerBeanLocal rm;
 
 	/**

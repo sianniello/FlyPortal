@@ -1,5 +1,6 @@
 package registration;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -14,6 +15,7 @@ import user.User;
 @LocalBean
 public class RegistrationBean implements RegistrationBeanLocal {
 
+	@EJB
 	ReplicaManagerBeanLocal rm;
 
 	/**
@@ -27,7 +29,8 @@ public class RegistrationBean implements RegistrationBeanLocal {
 	public boolean register(User u) {
 		rm = new ReplicaManagerBean();
 		rm.init();
-		String query = "INSERT INTO users (username, password) VALUES ('" + u.getUsername() + "', '" + u.getPassword() + "');";
+		String query = "INSERT INTO users (username, password, account) VALUES "
+				+ "('" + u.getUsername() + "', '" + u.getPassword() + "', 10000);";
 
 		try{
 			if(rm.executeUpdate(query))

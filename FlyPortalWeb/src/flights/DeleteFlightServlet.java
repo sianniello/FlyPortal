@@ -2,6 +2,7 @@ package flights;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,13 +17,12 @@ import flight.FlightException;
 @WebServlet("/DeleteFlightServlet")
 public class DeleteFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@EJB
 	private DeleteFlightBeanLocal dfb;
-
-
 
 	@Override
 	public void init() throws ServletException {
-		dfb = new DeleteFlightBean();
 	}
 
 	/**

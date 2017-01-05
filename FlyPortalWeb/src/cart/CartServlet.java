@@ -66,12 +66,6 @@ public class CartServlet extends HttpServlet {
 			if (cart.size() == 0)
 				request.getSession().setAttribute("cart", null);
 			break;
-
-		case "buy":
-
-			
-			
-			break;
 		}
 	}
 

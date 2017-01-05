@@ -1,6 +1,7 @@
 package counter;
 
 import java.net.InetAddress;
+import java.util.HashSet;
 
 import javax.ejb.Local;
 
@@ -12,5 +13,7 @@ public interface CounterBeanLocal {
 	int getCounter();
 
 	void setCounter(InetAddress ia);
+
+	HashSet<InetAddress> getVisitorsSet();
 
 }

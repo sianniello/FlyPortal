@@ -1,6 +1,8 @@
 package flights;
 
 import java.io.IOException;
+
+import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,13 +19,14 @@ import flights.AddFlightBean;
 @WebServlet("/AddFlightServlet")
 public class AddFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@EJB
 	private AddFlightBean afb;
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		afb = new AddFlightBean();
 	}
 
 	/**

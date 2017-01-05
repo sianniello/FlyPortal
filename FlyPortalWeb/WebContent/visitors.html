@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$.post("VisitorServlet", null, function(data) {
+		alert(data);
+		$("#visit").text(data);
+	});
+});
+</script>
+<meta charset="ISO-8859-1">
+<title>Visitors list</title>
+</head>
+<body>
+<p id="visit"></p>
+</body>
+</html>
