@@ -1,8 +1,6 @@
 package flights;
 
 import java.io.IOException;
-import java.net.InetAddress;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,15 +18,15 @@ import flights.FlightsBean;
 @WebServlet("/FlightTable")
 public class FlightTableServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private FlightsBean fb;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FlightTableServlet() {
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public FlightTableServlet() {
+	}
 
 	@Override
 	public void init() throws ServletException {
@@ -38,7 +36,6 @@ public class FlightTableServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		InetAddress clientIP = InetAddress.getByName(request.getRemoteAddr());
 		request.setAttribute("flights", fb.getFlights());
 		request.getRequestDispatcher("flights/flights.jsp").forward(request, response);
 	}
@@ -51,7 +48,7 @@ public class FlightTableServlet extends HttpServlet {
 		try {
 			Flight f = fb.getFlight(flight);
 			response.getWriter().println(f.getDepAirport() + "#" + f.getArrAirport() + "#" + f.getDepTime() + "#" +
-			f.getCompany() + "#" + f.getState() + "#" + f.getFreeSeats());
+					f.getCompany() + "#" + f.getState() + "#" + f.getFreeSeats());
 		} catch (FlightException e) {
 			e.printStackTrace();
 		}

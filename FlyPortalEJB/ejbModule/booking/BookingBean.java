@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.naming.Context;
@@ -33,7 +33,7 @@ import flight.FlightException;
 /**
  * Session Bean implementation class FlightsBean
  */
-@Stateful
+@Stateless
 @LocalBean
 @TransactionManagement(TransactionManagementType.BEAN)
 public class BookingBean implements BookingBeanLocal {
