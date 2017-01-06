@@ -31,21 +31,46 @@
 		$(".clickable-row").click(function() {
 			var oid = this.id;
 			$.post("../OrderServlet", {
-				order : oid
+			order : oid
 			}, function(data) {
 				$('#ordersTable tbody').html("");
 				var order = data.split("!");
-				for(i = 0; i < order.length - 1; i++) {
+				for (i = 0; i < order.length - 1; i++) {
 					var x = order[i].split("#");
-					$('#ordersTable tbody').append('<tr><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>');
+					$('#ordersTable tbody').append(
+					'<tr id='+i+'><td>' + x[1] + '</td><td>'
+					+ x[2] + '</td><td>' + x[3]
+					+ '</td></tr>');
 				}
 			});
 			$('#myModalLabel').text('Order ' + oid + ' details');
 			$('#myModal').modal('show');
 		});
 		$('.btn btn-secondary').click(function() {
-			aler("ciao");
 			$('#ordersTable > tbody').html("");
+		});
+	});
+	</script>
+	<script>
+	$(window).on('shown.bs.modal', function(){
+		$('#modalTBody > tr').hover(function() {
+			var f = $(this).children("td:first").text();
+			$.post("../FlightTable", {
+				flight : f
+			}, function(data) {
+				var i = data.split("#");
+				$('#flightTable tbody').html('<tr><td>'+i[0]+'</td>'+
+						'<td>'+i[1]+'</td>'+
+						'<td>'+i[2]+'</td>'+
+						'<td>'+i[3]+'</td>'+
+						'<td>'+i[4]+'</td>'+
+						'<td>'+i[5]+'</td>'+
+						'</tr>');
+			});
+			$('#infoModal').modal('show');
+		});
+		$('#modalTBody > tr').mouseout(function() {
+			$('#infoModal').modal('hide');
 		});
 	});
 </script>
@@ -129,7 +154,7 @@
 								<th>Price</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="modalTBody">
 						</tbody>
 					</table>
 				</div>
@@ -137,6 +162,27 @@
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+		id="infoModal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<table class="table table-striped" id="flightTable">
+					<thead>
+						<tr>
+							<th>Departure airport</th>
+							<th>Arrival airport</th>
+							<th>Departure time</th>
+							<th>Company</th>
+							<th>State</th>
+							<th>Free seats</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

@@ -68,18 +68,18 @@
 
 				<%
 					if (request.getSession().getAttribute("auth").equals("admin")) {
-								out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
-								out.println("<li><a href='#'>Transactions</a></li>");
-							}
+												out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
+												out.println("<li><a href='#'>Transactions</a></li>");
+											}
 				%>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
 					if (auth.equals("user"))
-								out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
-							if (auth.equals("admin") || auth.equals("user"))
-								out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
+												out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+											if (auth.equals("admin") || auth.equals("user"))
+												out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
 				%>
 			</ul>
 		</div>

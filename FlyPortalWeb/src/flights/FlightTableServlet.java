@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import flight.Flight;
+import flight.FlightException;
 import flights.FlightsBean;
 
 /**
@@ -45,7 +47,14 @@ public class FlightTableServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String flight = request.getParameter("flight");
+		try {
+			Flight f = fb.getFlight(flight);
+			response.getWriter().println(f.getDepAirport() + "#" + f.getArrAirport() + "#" + f.getDepTime() + "#" +
+			f.getCompany() + "#" + f.getState() + "#" + f.getFreeSeats());
+		} catch (FlightException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

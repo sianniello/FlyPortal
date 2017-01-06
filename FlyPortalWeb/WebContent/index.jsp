@@ -7,7 +7,7 @@
 <title></title>
 </head>
 <body>
-	<p>login success!</p>
+	<p>login success! Welcome <%out.println(session.getAttribute("username"));%></p>
 	<%
 		if (request.getSession().getAttribute("auth") == "admin") {
 			out.println("<a href='flights/admin_flights.jsp'>Flights table</a>");

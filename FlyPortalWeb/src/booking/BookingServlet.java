@@ -3,7 +3,6 @@ package booking;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import javax.ejb.EJB;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
