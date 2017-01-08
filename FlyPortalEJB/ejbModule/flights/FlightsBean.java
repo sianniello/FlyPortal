@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
+
 import database.DatabaseException;
 import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanLocal;
@@ -18,7 +19,7 @@ import flight.FlightException;
  * Session Bean implementation class FlightsBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class FlightsBean implements FlightBeanLocal{
 
 	public LinkedList<Flight> flights;

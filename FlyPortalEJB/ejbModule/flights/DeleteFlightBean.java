@@ -1,7 +1,7 @@
 package flights;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import replica.ReplicaManagerBean;
@@ -12,7 +12,7 @@ import flight.FlightException;
  * Session Bean implementation class DeleteFlightBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class DeleteFlightBean implements DeleteFlightBeanLocal {
 
 	@EJB

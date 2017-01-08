@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import database.*;
@@ -17,7 +17,7 @@ import database.*;
  * Session Bean implementation class ReplicaManagerBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 
 	Database primary;

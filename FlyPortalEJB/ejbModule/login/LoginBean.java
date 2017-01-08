@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import user.User;
@@ -17,7 +17,7 @@ import user.User;
  * Session Bean implementation class LoginEJB
  */
 @Stateless
-@LocalBean
+@Remote
 public class LoginBean implements LoginBeanLocal {
 
 

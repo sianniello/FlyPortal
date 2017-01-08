@@ -1,7 +1,7 @@
 package flights;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
@@ -13,7 +13,7 @@ import flight.Flight;
  * Session Bean implementation class AddFlightBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class AddFlightBean {
 
 	@EJB

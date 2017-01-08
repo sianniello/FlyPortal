@@ -1,7 +1,7 @@
 package registration;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import replica.ReplicaManagerBean;
@@ -12,7 +12,7 @@ import user.User;
  * Session Bean implementation class RegistrationBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class RegistrationBean implements RegistrationBeanLocal {
 
 	@EJB

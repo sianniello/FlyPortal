@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
@@ -16,7 +16,7 @@ import replica.ReplicaManagerBeanLocal;
  * Session Bean implementation class OrderBean
  */
 @Stateless
-@LocalBean
+@Remote
 public class OrderBean implements OrderBeanLocal {
 
 	@EJB
