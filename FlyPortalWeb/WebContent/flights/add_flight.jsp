@@ -14,6 +14,10 @@
 <link
 	href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css"/>"
 	rel="stylesheet" />
+	
+	<link
+	href="<c:url value="../components/css/myCSS.css"/>"
+	rel="stylesheet" />
 
 <!-- JQuery -->
 <script
@@ -27,14 +31,17 @@
 <script
 	src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"/>"></script>
 
-<!-- Moment locale -->
-<script
-	src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/en.js"/>"></script>
-
 <!-- Bootstrap datetimepicker -->
 <script
 	src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"/>"></script>
 
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+
+<script>
+$(window).on('load', function() {
+		$(".se-pre-con").fadeOut("slow");;
+	});
+</script>
 <title>Add flight</title>
 </head>
 
@@ -47,6 +54,7 @@
 		pageContext.setAttribute("airportsList", airportsList);
 		pageContext.setAttribute("airlinesList", airlinesList);
 	%>
+	<div class="se-pre-con"></div>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">

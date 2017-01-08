@@ -1,7 +1,7 @@
 package counter;
 
 import java.net.InetAddress;
-import java.util.HashSet;
+import java.util.TreeMap;
 
 import javax.ejb.Local;
 
@@ -14,6 +14,6 @@ public interface CounterBeanLocal {
 
 	void setCounter(InetAddress ia);
 
-	HashSet<InetAddress> getVisitorsSet();
+	TreeMap<String, String> getVisitorsSet();
 
 }

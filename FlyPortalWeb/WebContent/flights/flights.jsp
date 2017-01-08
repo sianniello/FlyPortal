@@ -22,18 +22,18 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-	$(document)
-			.ready(
-					function() {
-						$(".btn.btn-warning")
-								.click(
-										function() {
-											var f = $(this).attr('id');
-											if (confirm("Are you sure you want to book a seat on flight "
-													+ f + "?"))
-												CartServletCall(f);
-										});
-					});
+	$(document).ready(function() {
+		$(".btn.btn-warning").click(function() {
+			var f = $(this).attr('id');
+			if (confirm("Are you sure you want to book a seat on flight " + f + "?"))
+				CartServletCall(f);
+		});
+		var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
+		 ws.onopen = function(evt) {  };
+		 ws.onmessage = function(evt) { 
+			 $("#flightsTable").load(window.location + " #flightsTable");
+			 };
+	});
 	function CartServletCall(f) {
 		$.post("../CartServlet", {
 			operation : "add",
@@ -90,7 +90,7 @@
 				<h3 class="panel-title">Flight Table</h3>
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped">
+				<table class="table table-striped" id="flightsTable">
 					<thead>
 						<tr>
 							<th>Flight</th>

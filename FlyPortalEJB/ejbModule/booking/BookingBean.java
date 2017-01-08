@@ -20,6 +20,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import javax.websocket.Session;
 
 import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanLocal;

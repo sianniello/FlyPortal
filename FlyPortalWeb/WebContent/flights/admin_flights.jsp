@@ -29,31 +29,40 @@ auth = (String) request.getSession().getAttribute("auth");
 
 
 <script>
-	$(document).ready(function() {
-		var input = document.querySelectorAll('input');
-		for(i=0; i<input.length; i++){
-		    input[i].setAttribute('size',input[i].getAttribute('value').length);
-		}
-		$(".btn.btn-danger").click(function() {
-			var f = $(this).attr('id');
-			if (confirm("Are you sure you want to delete flight " + f + "?"))
-				removeServletCall(f);
-		});
-		$(".btn.btn-success").click(function() {
-			var f = $(this).attr('id');
-			var fm = $("#" + f + "mod").val();
-			var da = $("#" + f + "dep_air").val();
-			var aa = $("#" + f + "arr_air").val();
-			var dt = $("#" + f + "dep_time").val();
-			var co = $("#" + f + "comp").val();
-			var st = $("#" + f + "state").val();
-			var fs = $("#" + f + "fseat").val();
-			var pr = $("#" + f + "prc").val();
-			if (confirm("Confirm flight " + f + " changes?")) {
-				editServletCall(f, da, aa, dt, co, st, fs, pr, fm);
-			}
-		});
-	});
+	$(document)
+			.ready(
+					function() {
+						var input = document.querySelectorAll('input');
+						for (i = 0; i < input.length; i++) {
+							input[i].setAttribute('size', input[i]
+									.getAttribute('value').length);
+						}
+						$(".btn.btn-danger")
+								.click(
+										function() {
+											var f = $(this).attr('id');
+											if (confirm("Are you sure you want to delete flight "
+													+ f + "?"))
+												removeServletCall(f);
+										});
+						$(".btn.btn-success").click(
+								function() {
+									var f = $(this).attr('id');
+									var fm = $("#" + f + "mod").val();
+									var da = $("#" + f + "dep_air").val();
+									var aa = $("#" + f + "arr_air").val();
+									var dt = $("#" + f + "dep_time").val();
+									var co = $("#" + f + "comp").val();
+									var st = $("#" + f + "state").val();
+									var fs = $("#" + f + "fseat").val();
+									var pr = $("#" + f + "prc").val();
+									if (confirm("Confirm flight " + f
+											+ " changes?")) {
+										editServletCall(f, da, aa, dt, co, st,
+												fs, pr, fm);
+									}
+								});
+					});
 	function removeServletCall(f) {
 		$.post("../DeleteFlightServlet", {
 			flight : f
@@ -67,7 +76,8 @@ auth = (String) request.getSession().getAttribute("auth");
 			flight : f + "#" + da + "#" + aa + "#" + dt + "#" + co + "#" + st
 					+ "#" + fs + "#" + pr + "#" + fm
 		}, function(data) {
-			alert(data);
+			var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
+			ws.onopen = function(evt) { ws.send(data); };
 			location.reload();
 		});
 	};
@@ -77,14 +87,14 @@ auth = (String) request.getSession().getAttribute("auth");
 </head>
 <body>
 	<%
-	if(auth == null){
-        session.setAttribute("message", "Please Login");
-         response.sendRedirect(response.encodeRedirectURL("../errors" + "/" + "session_timeout.html"));
-    }
-	
-		LinkedList<Flight> list = new LinkedList<Flight>();
-		list = showDataBean.getFlights();
-		pageContext.setAttribute("list", list);
+		if(auth == null){
+	        session.setAttribute("message", "Please Login");
+	         response.sendRedirect(response.encodeRedirectURL("../errors" + "/" + "session_timeout.html"));
+	    }
+		
+			LinkedList<Flight> list = new LinkedList<Flight>();
+			list = showDataBean.getFlights();
+			pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -98,7 +108,8 @@ auth = (String) request.getSession().getAttribute("auth");
 			</ul>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="../transactions/transactions.jsp"><span
-						class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span> Transactions</a></li>
+						class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+						Transactions</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>

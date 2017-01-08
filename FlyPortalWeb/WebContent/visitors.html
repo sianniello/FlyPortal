@@ -2,18 +2,65 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
-$(document).ready(function() {
-	$.post("VisitorServlet", null, function(data) {
-		alert(data);
-		$("#visit").text(data);
-	});
-});
+	$(document).ready(
+			function() {
+				$.post("VisitorServlet", null, function(data) {
+					var data = data.substring(1, data.length - 1);
+					data = data.split(",");
+					for (i = 0; i < data.length; i++) {
+						var x = data[i].split("=")
+						$("tbody").append(
+								"<tr><th scope='row'>" + (i + 1) + "</th><td>"
+										+ x[0].replace("/", "") + "</td><td>"
+										+ x[1] + "</td></tr>");
+					}
+				});
+			});
 </script>
 <meta charset="ISO-8859-1">
 <title>Visitors list</title>
 </head>
 <body>
-<p id="visit"></p>
+<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand">Fly Portal</a>
+			</div>
+			<div class="navbar-header">
+				<a class="navbar-brand" href="flights/admin_flights.jsp">Flights
+					Table</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class=container>
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-3">Visitors</h1>
+				<p class="lead">Visitors list with ip address and timestamp of last access</p>
+			</div>
+		</div>
+		<table class="table table-inverse">
+			<thead class="thead-inverse">
+				<tr>
+					<th>#</th>
+					<th>IP Address</th>
+					<th>Timestamp</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

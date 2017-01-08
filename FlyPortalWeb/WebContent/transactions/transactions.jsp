@@ -53,7 +53,7 @@
 	</script>
 	<script>
 	$(window).on('shown.bs.modal', function(){
-		$('#modalTBody > tr').hover(function() {
+		$('#modalTBody > tr').mouseenter(function() {
 			var f = $(this).children("td:first").text();
 			$.post("../FlightTable", {
 				flight : f
@@ -69,7 +69,7 @@
 			});
 			$('#infoModal').modal('show');
 		});
-		$('#modalTBody > tr').mouseout(function() {
+		$('#modalTBody > tr').mouseleave(function() {
 			$('#infoModal').modal('hide');
 		});
 	});

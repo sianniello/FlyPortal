@@ -30,16 +30,6 @@
 
 <meta charset="ISO-8859-1">
 
-<script>
-	$(document).ready(function() {
-		$.post("CounterServlet", {
-			op : null
-		}, function(data) {
-			$("#count").text(" " + data);
-		});
-	});
-</script>
-
 <title>Fly Portal Registration</title>
 </head>
 <body>
@@ -92,12 +82,5 @@
 
 		</fieldset>
 	</form>
-	<footer class="footer">
-		<div class="container">
-			<div class="col-md-4 col-md-offset-8">
-				<span id="count" class="glyphicon glyphicon-user" aria-hidden="true"></span>
-			</div>
-		</div>
-	</footer>
 </body>
 </html>

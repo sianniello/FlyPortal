@@ -55,6 +55,10 @@ if(session.getAttribute("cart") != null) {
 				alert(data);
 				$("#cartTable > tbody").html("");
 				$("#buyBtn").hide();
+				if(data == "Congratulations your order has been confirmed!") {
+					var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
+					ws.onopen = function(evt) { ws.send(data); };
+				}
 			});
 		});
 		
