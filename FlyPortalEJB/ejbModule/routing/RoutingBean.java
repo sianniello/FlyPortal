@@ -21,12 +21,14 @@ public class RoutingBean implements RoutingBeanRemote {
         // TODO Auto-generated constructor stub
     }
     
-    public static Database Geo(Set<Database> dbSet) {
+    @Override
+    public Database Geo(Set<Database> dbSet) {
     	Database db = null;
     	return db;
     }
     
-    public static Database Parity(Set<Database> dbSet) {
+    @Override
+    public Database Parity(Set<Database> dbSet) {
     	Database db = null;
     	return db;
     }

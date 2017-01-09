@@ -10,7 +10,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/echoWS")
+@ServerEndpoint("/FlyPortalWS")
 public class FlyPortalWebSocket {
 
 	private static Set<Session> allSessions;

@@ -29,58 +29,53 @@ auth = (String) request.getSession().getAttribute("auth");
 
 
 <script>
-	$(document)
-			.ready(
-					function() {
-						var input = document.querySelectorAll('input');
-						for (i = 0; i < input.length; i++) {
-							input[i].setAttribute('size', input[i]
-									.getAttribute('value').length);
-						}
-						$(".btn.btn-danger")
-								.click(
-										function() {
-											var f = $(this).attr('id');
-											if (confirm("Are you sure you want to delete flight "
-													+ f + "?"))
-												removeServletCall(f);
-										});
-						$(".btn.btn-success").click(
-								function() {
-									var f = $(this).attr('id');
-									var fm = $("#" + f + "mod").val();
-									var da = $("#" + f + "dep_air").val();
-									var aa = $("#" + f + "arr_air").val();
-									var dt = $("#" + f + "dep_time").val();
-									var co = $("#" + f + "comp").val();
-									var st = $("#" + f + "state").val();
-									var fs = $("#" + f + "fseat").val();
-									var pr = $("#" + f + "prc").val();
-									if (confirm("Confirm flight " + f
-											+ " changes?")) {
-										editServletCall(f, da, aa, dt, co, st,
-												fs, pr, fm);
-									}
-								});
-					});
-	function removeServletCall(f) {
-		$.post("../DeleteFlightServlet", {
-			flight : f
-		}, function(data) {
-			alert(data);
-			$("#flightsTable").load(window.location + " #flightsTable");
-		});
-	};
-	function editServletCall(f, da, aa, dt, co, st, fs, pr, fm) {
-		$.post("../EditFlightServlet", {
-			flight : f + "#" + da + "#" + aa + "#" + dt + "#" + co + "#" + st
-					+ "#" + fs + "#" + pr + "#" + fm
-		}, function(data) {
-			var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
-			ws.onopen = function(evt) { ws.send(data); };
-			location.reload();
-		});
-	};
+$(document).ready(function() {
+    var a = document.querySelectorAll("input");
+    for (i = 0; i < a.length; i++) a[i].setAttribute("size", a[i].getAttribute("value").length);
+    $(".btn.btn-danger").click(function() {
+        var a = $(this).attr("id");
+        if (confirm("Are you sure you want to delete flight " + a + "?")) removeServletCall(a);
+    });
+    $(".btn.btn-success").click(function() {
+        var a = $(this).attr("id");
+        var b = $("#" + a + "mod").val();
+        var c = $("#" + a + "dep_air").val();
+        var d = $("#" + a + "arr_air").val();
+        var e = $("#" + a + "dep_time").val();
+        var f = $("#" + a + "comp").val();
+        var g = $("#" + a + "state").val();
+        var h = $("#" + a + "fseat").val();
+        var i = $("#" + a + "prc").val();
+        if (confirm("Confirm flight " + a + " changes?")) editServletCall(a, c, d, e, f, g, h, i, b);
+    });
+});
+
+function removeServletCall(a) {
+    $.post("../DeleteFlightServlet", {
+        flight: a
+    }, function(a) {
+        alert(a);
+        var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+        b.onopen = function(c) {
+            b.send(a);
+            b.close();
+        };
+        $("#flightsTable").load(window.location + " #flightsTable");
+    });
+}
+
+function editServletCall(a, b, c, d, e, f, g, h, i) {
+    $.post("../EditFlightServlet", {
+        flight: a + "#" + b + "#" + c + "#" + d + "#" + e + "#" + f + "#" + g + "#" + h + "#" + i
+    }, function(a) {
+        var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+        b.onopen = function(c) {
+            b.send(a);
+            b.close();
+        };
+        location.reload();
+    });
+}
 </script>
 
 <title>Flights table <%=auth%></title>

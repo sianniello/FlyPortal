@@ -22,27 +22,28 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-	$(document).ready(function() {
-		$(".btn.btn-warning").click(function() {
-			var f = $(this).attr('id');
-			if (confirm("Are you sure you want to book a seat on flight " + f + "?"))
-				CartServletCall(f);
-		});
-		var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
-		 ws.onopen = function(evt) {  };
-		 ws.onmessage = function(evt) { 
-			 $("#flightsTable").load(window.location + " #flightsTable");
-			 };
-	});
-	function CartServletCall(f) {
-		$.post("../CartServlet", {
-			operation : "add",
-			flight : f
-		}, function(data) {
-			alert(data);
-			$("#flightsTable").load(window.location + " #flightsTable");
-		});
-	};
+window.onload = function(){
+	var a = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+    a.onmessage = function(a) {
+        $("#flightsTable").load(window.location + " #flightsTable");
+    };
+};
+
+$(document).ready(function() {
+    $(".btn.btn-warning").click(function() {
+        var x = $(this).attr("id");
+        if (confirm("Are you sure you want to book a seat on flight " + x + "?")) CartServletCall(x);
+    });
+});
+
+function CartServletCall(x) {
+    $.post("../CartServlet", {
+        operation: "add",
+        flight: x
+    }, function(data) {
+        alert(data);
+    });
+}
 </script>
 
 <title>Flights table <%=auth%></title>
@@ -54,9 +55,9 @@
 		scope="request" />
 	<%
 		LinkedList<Flight> list = new LinkedList<Flight>();
-		showFlightsBean = new FlightsBean();
-		list = showFlightsBean.getFlights();
-		pageContext.setAttribute("list", list);
+			showFlightsBean = new FlightsBean();
+			list = showFlightsBean.getFlights();
+			pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -67,19 +68,17 @@
 				<li class="active"><a href="flights.jsp">Flights table</a></li>
 
 				<%
-					if (request.getSession().getAttribute("auth").equals("admin")) {
-												out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
-												out.println("<li><a href='#'>Transactions</a></li>");
-											}
+				if (request.getSession().getAttribute("auth").equals("admin")) {
+				    out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
+				    out.println("<li><a href='#'>Transactions</a></li>");
+				}
 				%>
 
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
-					if (auth.equals("user"))
-												out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
-											if (auth.equals("admin") || auth.equals("user"))
-												out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
+				if (auth.equals("user")) out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+				if (auth.equals("admin") || auth.equals("user")) out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
 				%>
 			</ul>
 		</div>

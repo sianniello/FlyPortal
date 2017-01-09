@@ -24,4 +24,6 @@ public interface ReplicaManagerBeanRemote {
 
 	void init();
 
+	ResultSet executeQuery(String query, String param) throws DatabaseException;
+
 }
