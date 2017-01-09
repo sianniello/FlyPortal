@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.swing.RepaintManager;
 
 import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
