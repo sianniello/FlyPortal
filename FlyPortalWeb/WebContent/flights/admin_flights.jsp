@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@page import="flights.FlightsBean"%>
-<%@page import="flights.DeleteFlightBeanLocal"%>
+<%@page import="flights.DeleteFlightBeanRemote"%>
 <%@page import="flight.Flight"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"

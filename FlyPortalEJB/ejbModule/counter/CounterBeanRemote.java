@@ -3,10 +3,10 @@ package counter;
 import java.net.InetAddress;
 import java.util.TreeMap;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
-@Local
-public interface CounterBeanLocal {
+@Remote
+public interface CounterBeanRemote {
 
 	void setCounter();
 

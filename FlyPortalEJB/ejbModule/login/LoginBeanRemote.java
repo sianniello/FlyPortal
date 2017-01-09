@@ -1,11 +1,11 @@
 package login;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import user.User;
 
-@Local
-public interface LoginBeanLocal {
+@Remote
+public interface LoginBeanRemote {
 
 	public boolean login(User u, String s);
 	

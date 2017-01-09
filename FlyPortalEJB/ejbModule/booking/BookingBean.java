@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -20,8 +20,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 import order.*;
 import user.*;
 import database.Database;
@@ -33,12 +34,12 @@ import flight.FlightException;
  * Session Bean implementation class FlightsBean
  */
 @Stateless
-@Remote
+@LocalBean
 @TransactionManagement(TransactionManagementType.BEAN)
-public class BookingBean implements BookingBeanLocal {
+public class BookingBean implements BookingBeanRemote {
 
 	@EJB
-	private ReplicaManagerBeanLocal rm;
+	private ReplicaManagerBeanRemote rm;
 
 	private LinkedList<Database> res;
 

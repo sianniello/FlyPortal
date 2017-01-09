@@ -1,22 +1,22 @@
 package flights;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 import flight.Flight;
 
 /**
  * Session Bean implementation class EditFlightBean
  */
 @Stateless
-@Remote
-public class EditFlightBean implements EditFlightBeanLocal {
+@LocalBean
+public class EditFlightBean implements EditFlightBeanRemote {
 
 	@EJB
-	ReplicaManagerBeanLocal rm;
+	ReplicaManagerBeanRemote rm;
 
 	/**
 	 * Default constructor. 

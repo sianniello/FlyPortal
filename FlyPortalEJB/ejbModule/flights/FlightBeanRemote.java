@@ -3,10 +3,13 @@ package flights;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.ejb.Remote;
+
 import flight.Flight;
 import flight.FlightException;
 
-public interface FlightBeanLocal {
+@Remote
+public interface FlightBeanRemote {
 
 	Flight getFlight(String f) throws FlightException;
 

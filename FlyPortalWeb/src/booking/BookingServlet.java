@@ -20,7 +20,7 @@ import user.UserException;
 public class BookingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private BookingBeanLocal bookingBean;
+	private BookingBeanRemote bookingBean;
 
 	@Override
 	public void init() throws ServletException {

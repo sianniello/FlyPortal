@@ -1,11 +1,11 @@
 package flights;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import flight.FlightException;
 
-@Local
-public interface DeleteFlightBeanLocal {
+@Remote
+public interface DeleteFlightBeanRemote {
 
 	boolean deleteFlight(String f) throws FlightException;
 

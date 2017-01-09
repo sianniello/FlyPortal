@@ -5,22 +5,22 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 
 /**
  * Session Bean implementation class TransactionBean
  */
 @Stateless
-@Remote
-public class TransactionBean implements TransactionBeanLocal {
+@LocalBean
+public class TransactionBean implements TransactionBeanRemote {
 
 	@EJB
-	private ReplicaManagerBeanLocal rm;
+	private ReplicaManagerBeanRemote rm;
 
 	/**
 	 * Default constructor. 

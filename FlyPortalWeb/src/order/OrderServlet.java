@@ -19,7 +19,7 @@ public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private OrderBeanLocal ob;
+	private OrderBeanRemote ob;
 
 	/**
 	 * @see Servlet#init(ServletConfig)

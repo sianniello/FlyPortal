@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 
 import database.DatabaseException;
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 import flight.Flight;
 
 /**
@@ -14,10 +14,10 @@ import flight.Flight;
  */
 @Stateless
 @Remote
-public class AddFlightBean {
+public class AddFlightBean implements AddFlightBeanRemote{
 
 	@EJB
-	private ReplicaManagerBeanLocal rm;
+	private ReplicaManagerBeanRemote rm;
 	/**
 	 * Default constructor. 
 	 */
@@ -25,6 +25,7 @@ public class AddFlightBean {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public boolean addFlight(Flight f) {
 		rm = new ReplicaManagerBean();
 		rm.init();

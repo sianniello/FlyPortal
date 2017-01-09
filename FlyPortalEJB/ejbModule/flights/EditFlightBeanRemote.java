@@ -1,11 +1,11 @@
 package flights;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import flight.Flight;
 
-@Local
-public interface EditFlightBeanLocal {
+@Remote
+public interface EditFlightBeanRemote {
 
 	boolean editFlight(Flight f, String prec);
 	

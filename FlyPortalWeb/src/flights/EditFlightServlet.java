@@ -20,7 +20,7 @@ public class EditFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private EditFlightBeanLocal efb;
+	private EditFlightBeanRemote efb;
 
 	/**
 	 * @see Servlet#init(ServletConfig)

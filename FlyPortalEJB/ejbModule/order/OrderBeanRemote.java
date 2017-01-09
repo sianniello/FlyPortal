@@ -2,10 +2,10 @@ package order;
 
 import java.util.LinkedList;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
-@Local
-public interface OrderBeanLocal {
+@Remote
+public interface OrderBeanRemote {
 
 	LinkedList<Order> getOrder(int id) throws OrderException;
 

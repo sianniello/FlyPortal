@@ -5,22 +5,22 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 
 /**
  * Session Bean implementation class OrderBean
  */
 @Stateless
-@Remote
-public class OrderBean implements OrderBeanLocal {
+@LocalBean
+public class OrderBean implements OrderBeanRemote {
 
 	@EJB
-	ReplicaManagerBeanLocal rm;
+	ReplicaManagerBeanRemote rm;
 
 	/**
 	 * Default constructor. 

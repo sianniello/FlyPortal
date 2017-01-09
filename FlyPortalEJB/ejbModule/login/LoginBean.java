@@ -1,13 +1,13 @@
 package login;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.swing.RepaintManager;
 
+import replica.ReplicaManagerBean;
+import replica.ReplicaManagerBeanRemote;
 import user.User;
 
 //import user.User;
@@ -17,9 +17,10 @@ import user.User;
  * Session Bean implementation class LoginEJB
  */
 @Stateless
-@Remote
-public class LoginBean implements LoginBeanLocal {
+@LocalBean
+public class LoginBean implements LoginBeanRemote {
 
+	ReplicaManagerBeanRemote rm;
 
 	/**
 	 * Default constructor. 
@@ -30,18 +31,10 @@ public class LoginBean implements LoginBeanLocal {
 
 	@Override
 	public boolean login(User u, String s) {
-
-		Connection con = null;
-		ResultSet rs = null;
-		String url = "jdbc:mysql://localhost:3306/";;
-		String db = "fly_portal";
+		rm = new ReplicaManagerBean();
 		String query = "SELECT * FROM " + (s.equals("user")? "users" : "db_managers") + " WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
 		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url+db,"admin","password");
-			Statement stmt = con.createStatement();
-			rs = stmt.executeQuery(query);
-
+			ResultSet rs = rm.executeQuery(query);
 			if(rs.next())
 				return true;
 		}

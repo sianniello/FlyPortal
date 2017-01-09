@@ -1,22 +1,22 @@
 package registration;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import replica.ReplicaManagerBean;
-import replica.ReplicaManagerBeanLocal;
+import replica.ReplicaManagerBeanRemote;
 import user.User;
 
 /**
  * Session Bean implementation class RegistrationBean
  */
 @Stateless
-@Remote
-public class RegistrationBean implements RegistrationBeanLocal {
+@LocalBean
+public class RegistrationBean implements RegistrationBeanRemote {
 
 	@EJB
-	ReplicaManagerBeanLocal rm;
+	ReplicaManagerBeanRemote rm;
 
 	/**
 	 * Default constructor. 

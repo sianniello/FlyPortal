@@ -19,7 +19,7 @@ public class DeleteFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private DeleteFlightBeanLocal dfb;
+	private DeleteFlightBeanRemote dfb;
 
 	@Override
 	public void init() throws ServletException {

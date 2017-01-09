@@ -8,21 +8,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.ejb.LocalBean;
+import javax.ejb.Singleton;
 
 import database.*;
 
 /**
  * Session Bean implementation class ReplicaManagerBean
  */
-@Stateless
-@Remote
-public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
+@Singleton
+@LocalBean
+public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 
-	Database primary;
 	LinkedList<Database> replicaList;
-
+	Database primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal");
+	Database backup1 = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup");
 	/**
 	 * Default constructor. 
 	 */
@@ -32,43 +32,12 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 
 	@Override
 	public void init() {
-		replicaList = new LinkedList<>();
-		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal", true);
-		replicaList.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup", false));
-	}
-
-	@Override
-	public void addReplica(Database db) throws DatabaseException {
-		db.setPrimary(false);
-		if(!replicaList.contains(db)) {
-			synchronized (this) {
-				replicaList.add(db);
-			}
-		} else throw new DatabaseException("Database already running");
-	}
-
-	@Override
-	public void removeReplica(Database db) throws DatabaseException {
-		if(replicaList.contains(db)) {
-			if(replicaList.get(replicaList.indexOf(db)).isPrimary()) {
-				synchronized (this) {
-					replicaList.remove(db);
-				}
-				if(!replicaList.isEmpty())
-					replicaList.getFirst().setPrimary(true);
-				else throw new DatabaseException("Replica fail, system crashed!");
-			} else {
-				synchronized (this) {
-					replicaList.remove(db);
-				}
-			}
-			if(replicaList.isEmpty()) throw new DatabaseException("Replica fail, system crashed!");
-		}
-		else throw new DatabaseException("No such database");
 	}
 
 	@Override
 	public Database getPrimary() throws DatabaseException {
+		replicaList = new LinkedList<Database>();
+		replicaList.add(backup1);
 		String url = "jdbc:mysql://" + primary.getIsa().getHostString() + ":" + primary.getIsa().getPort() + "/";
 		String db = primary.getName();
 		try {
@@ -86,6 +55,8 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 
 	@Override
 	public Database getReplica() throws DatabaseException {
+		replicaList = new LinkedList<Database>();
+		replicaList.add(backup1);
 		if(!replicaList.isEmpty()) 
 			for(Database d : replicaList) {
 				String url = "jdbc:mysql://" + d.getIsa().getHostString() + ":" + d.getIsa().getPort() + "/";
@@ -107,7 +78,6 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 	public boolean executeUpdate(String query) throws DatabaseException {
 		boolean res = false;
 		int affectedRows = 0;
-
 		String url = "jdbc:mysql://" + primary.getIsa().getHostString() + ":" + primary.getIsa().getPort() + "/";
 		String dbName = primary.getName();
 		try {
@@ -121,8 +91,8 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 			con.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			//primary = getPrimary();
-			//executeUpdate(query);
+			primary = getPrimary();
+			executeUpdate(query);
 		}
 
 		for(Database db : replicaList) {
@@ -168,5 +138,15 @@ public class ReplicaManagerBean implements ReplicaManagerBeanLocal {
 			executeQuery(query);
 		}
 		return null;
+	}
+
+	@Override
+	public void addReplica(Database db) throws DatabaseException {
+		replicaList.add(db);
+	}
+
+	@Override
+	public void removeReplica(Database db) throws DatabaseException {
+		replicaList.remove(db);
 	}
 }

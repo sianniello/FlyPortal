@@ -2,13 +2,13 @@ package replica;
 
 import java.sql.ResultSet;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import database.Database;
 import database.DatabaseException;
 
-@Local
-public interface ReplicaManagerBeanLocal {
+@Remote
+public interface ReplicaManagerBeanRemote {
 
 	void addReplica(Database db) throws DatabaseException;
 

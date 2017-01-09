@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import flight.Flight;
-import flights.AddFlightBean;
 
 /**
  * Servlet implementation class AddFlightServlet
@@ -21,7 +20,7 @@ public class AddFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private AddFlightBean afb;
+	private AddFlightBeanRemote afb;
 
 	/**
 	 * @see Servlet#init(ServletConfig)

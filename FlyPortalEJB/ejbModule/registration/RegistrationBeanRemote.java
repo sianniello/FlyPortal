@@ -1,11 +1,11 @@
 package registration;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import user.User;
 
-@Local
-public interface RegistrationBeanLocal {
+@Remote
+public interface RegistrationBeanRemote {
 
 	public boolean register(User u);
 	

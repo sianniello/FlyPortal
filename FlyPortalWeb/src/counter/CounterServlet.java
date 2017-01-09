@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CounterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private CounterBeanLocal cb;
+	private CounterBeanRemote cb;
 
 	/**
 	 * @see Servlet#init(ServletConfig)

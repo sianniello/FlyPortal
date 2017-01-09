@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import counter.CounterBeanLocal;
+import counter.CounterBeanRemote;
 import user.User;
 
 /**
@@ -23,10 +23,10 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private LoginBean lb;
+	private LoginBeanRemote lb;
 
 	@EJB
-	private CounterBeanLocal cb;
+	private CounterBeanRemote cb;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
