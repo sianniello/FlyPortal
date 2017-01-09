@@ -43,6 +43,10 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String ipAddr= request.getLocalAddr();
+		String locale = request.getLocale().toLanguageTag();
+		
 		if(lb.login(new User(request.getParameter("username"), request.getParameter("password")), request.getParameter("optradio"))) {
 			HttpSession session = request.getSession();
 			session.setAttribute("auth", (request.getParameter("optradio").equals("admin")? "admin" : "user"));
