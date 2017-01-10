@@ -2,6 +2,7 @@ package login;
 
 import java.sql.ResultSet;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -19,6 +20,7 @@ import user.User;
 @LocalBean
 public class LoginBean implements LoginBeanRemote {
 
+	@EJB
 	ReplicaManagerBeanRemote rm;
 
 	/**
