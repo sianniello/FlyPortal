@@ -6,18 +6,20 @@ public class Database {
 
 	private InetSocketAddress isa;
 	private String name;
-	private boolean primary;
+	private String username;
+	private String password;
 	
 	public Database(InetSocketAddress isa, String name) {
 		this.isa = isa;
 		this.name = name;
-		primary = false;
 	}
 	
-	public Database(InetSocketAddress isa, String name, boolean primary) {
+	public Database(InetSocketAddress isa, String name, String username, String password) {
 		this(isa, name);
-		this.primary = primary;
+		this.username = username;
+		this.password = password;
 	}
+	
 
 	public InetSocketAddress getIsa() {
 		return isa;
@@ -35,12 +37,20 @@ public class Database {
 		this.name = name;
 	}
 
-	public boolean isPrimary() {
-		return primary;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setPrimary(boolean primary) {
-		this.primary = primary;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }

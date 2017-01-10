@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.LocalBean;
@@ -102,30 +103,32 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 			if(affectedRows > 0) {
 				res = true;
 			}
+			else throw new DatabaseException("No rows updates");
 			con.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			if(!rl.isEmpty())
 				primary = getReplica();
+			throw new DatabaseException();
 		}
-
-		for(Database db : rl) {
-			url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
-			dbName = db.getName();
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
-				Statement stmt = con.createStatement();
-				if(stmt.executeUpdate(query) != affectedRows)
-					throw new DatabaseException("Inconsistence on replica!");
-				con.close();
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-				rl.remove(db);
-				if(rl.isEmpty())
-					throw new DatabaseException("No more replica.");
+		if(res = true) 
+			for(Database db : rl) {
+				url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
+				dbName = db.getName();
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
+					Statement stmt = con.createStatement();
+					if(stmt.executeUpdate(query) != affectedRows)
+						throw new DatabaseException("Inconsistence on replica!");
+					con.close();
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+					rl.remove(db);
+					if(rl.isEmpty())
+						throw new DatabaseException("No more replica.");
+				}
 			}
-		}
 		return res;
 	}
 
