@@ -66,7 +66,7 @@ un dummy message che notificherà i subscriber. Ricevuta la notify i client potr
 eseguire un refresh dell'elemento. 
 
 ###Bug
-![Alt text](/FlyPortal/FlyPortalDocumentation/bug.png "Glassfish bug")
+![Alt text](/FlyPortal/FlyPortalDocumentation/bug.PNG "Glassfish bug")
 A causa del bug riportato non è stato possibile gestire i database direttamente dal server glassfish.
 Tuttavia è stato possibile una gestione esplicita delle risorse senza compromettere le qualità
 di scalabilità.
