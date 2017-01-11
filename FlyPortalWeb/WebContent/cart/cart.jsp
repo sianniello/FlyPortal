@@ -9,18 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%
-	Double total = 0.0;
 	String auth = (String) session.getAttribute("auth");
-	TreeMap<String, Integer> cart = null;
-if(session.getAttribute("cart") != null) {
-	cart = (TreeMap<String, Integer>) session.getAttribute("cart");
-	
-	LinkedList<Flight> cartList = showDataBean.getFlights(cart.keySet());
-	pageContext.setAttribute("cartList", cartList);
-	
-	for(Flight f : cartList)
-		total += (f.getPrice() * cart.get(f.getFlight()));
-}
 %>
 <link
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -32,53 +21,52 @@ if(session.getAttribute("cart") != null) {
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script>
-	$(document).ready(function() {
-		$(".btn.btn-danger").click(function() {
-			var f = $(this).attr('id');
-			if (confirm("Are you sure you want to remove your booking from your shopping chart?"))
-				removeCartCall(f);
-		});
-		function removeCartCall(f) {
-			$.post("../CartServlet", {
-				operation : "remove",
-				flight : f
-			}, function(data) {
-				alert("Flight " + data);
-				location.reload();
-			});
-		};
-		
-		$("#buyBtn").click(function() {
-			var cart = "${sessionScope.cart}";
-			alert("Your cart: " + cart);
-			$.post("../BookingServlet", null, function(data) {
-				alert(data);
-				$("#cartTable > tbody").html("");
-				$("#buyBtn").hide();
-				if(data == "Congratulations your order has been confirmed!") {
-					var ws = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
-					ws.onopen = function(evt) { ws.send(data); };
-				}
-			});
-		});
-		
-	});
-		</script>
+$(document).ready(function() {
+    $(".btn.btn-danger").click(function() {
+        var b = $(this).attr("id");
+        if (confirm("Are you sure you want to remove your booking from your shopping chart?")) a(b);
+    });
+    function a(a) {
+        $.post("../CartServlet", {
+            operation: "remove",
+            flight: a
+        }, function(a) {
+            alert("Flight " + a);
+            location.reload();
+        });
+    }
+    $("#buyBtn").click(function() {
+        var a = "${sessionScope.cart}";
+        alert("Your cart: " + a);
+        $.post("../BookingServlet", null, function(a) {
+            alert(a);
+            $("#cartTable > tbody").html("");
+            $("#buyBtn").hide();
+            if ("Congratulations your order has been confirmed!" == a) {
+                var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
+                b.onopen = function(c) {
+                    b.send(a);
+                };
+            }
+        });
+    });
+});
+</script>
 <title>Cart</title>
 </head>
 <body>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="../login.html">Fly Portal</a>
+			<a class="navbar-brand">Fly Portal</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="../flights/flights.jsp">Flights
-					table</a></li>
+			<li class="active"><a href="../FlightTable">Flights table</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<%if (auth.equals("admin") || auth.equals("user"))
-				out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
-				%>
+			<%
+				if (auth.equals("admin") || auth.equals("user"))
+					out.println("<li class='bg-danger'><a href='LogoutServlet'>logout</a></li>");
+			%>
 		</ul>
 	</nav>
 	<div class="container">
@@ -102,8 +90,10 @@ if(session.getAttribute("cart") != null) {
 						</tr>
 					</thead>
 					<tbody>
+						<c:set var="total" value="${0}" />
 						<c:forEach items="${cartList}" var="item">
 							<c:set var="qty" value="${cart.get(item.getFlight())}" />
+							<c:set var="total" value="${item.getPrice()*qty}" />
 							<tr>
 								<td>${item.getFlight()}</td>
 								<td>${item.getDepAirport()}</td>
@@ -117,21 +107,22 @@ if(session.getAttribute("cart") != null) {
 										class="btn btn-danger<%if(auth != "user")out.println(" hidden"); %>"
 										id="${item.getFlight()}">
 										<span class='glyphicon glyphicon-remove'> </span>
-									</button></td>
-
+									</button>
+									</td>
 							</tr>
 						</c:forEach>
 						<tr>
 							<td colspan="6"></td>
 							<td class="bg-warning"><h4>Total</h4></td>
-							<td class="bg-warning" colspan="2"><h4><%=total%></h4></td>
+							<td class="bg-warning" colspan="2"><h4><c:out value="${total}" /></h4></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4 col-md-offset-4 text-right">
-						<button type="button" class="btn btn-warning btn-lg <%out.println((session.getAttribute("cart")==null)?"hidden":"");%>"
+						<button type="button"
+							class="btn btn-warning btn-lg <%out.println((session.getAttribute("cart") == null) ? "hidden" : "");%>"
 							data-toggle="Buy!" id="buyBtn">
 							<span class="glyphicon glyphicon-shopping-cart"></span> Buy
 						</button>

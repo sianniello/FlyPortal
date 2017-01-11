@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<%@page import="flights.FlightsBean"%>
-<%@page import="flights.FlightBeanRemote"%>
-<%@page import="flights.DeleteFlightBeanRemote"%>
 <%@page import="flight.Flight"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -37,7 +34,7 @@ $(document).ready(function() {
 });
 
 function CartServletCall(x) {
-    $.post("../CartServlet", {
+    $.post("CartServlet", {
         operation: "add",
         flight: x
     }, function(data) {
@@ -49,36 +46,18 @@ function CartServletCall(x) {
 <title>Flights table <%=auth%></title>
 </head>
 <body>
-	<jsp:useBean id="showFlightsBean" class="flights.FlightsBean"
-		scope="request" />
-	<jsp:useBean id="delFlightsBean" class="flights.DeleteFlightBean"
-		scope="request" />
-	<%
-		LinkedList<Flight> list = new LinkedList<Flight>();
-			showFlightsBean = new FlightsBean();
-			list = showFlightsBean.getFlights();
-			pageContext.setAttribute("list", list);
-	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../login.html">Fly Portal</a>
+				<a class="navbar-brand">Fly Portal</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="flights.jsp">Flights table</a></li>
-
-				<%
-				if (request.getSession().getAttribute("auth").equals("admin")) {
-				    out.println("<li><a href='add_flight.jsp'>Add flight</a></li>");
-				    out.println("<li><a href='#'>Transactions</a></li>");
-				}
-				%>
-
+				<li class="active"><a href="FlightTable">Flights table</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
-				if (auth.equals("user")) out.println("<li><a href='../cart/cart.jsp'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
-				if (auth.equals("admin") || auth.equals("user")) out.println("<li class='bg-danger'><a href='../LogoutServlet'>logout</a></li>");
+				if (auth.equals("user")) out.println("<li><a href='CartInfo'><span class='glyphicon glyphicon-shopping-cart' aria-hidden='true'>Shopping cart</span></a></li>");
+				if (auth.equals("admin") || auth.equals("user")) out.println("<li class='bg-danger'><a href='LogoutServlet'>logout</a></li>");
 				%>
 			</ul>
 		</div>
@@ -103,7 +82,7 @@ function CartServletCall(x) {
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list}" var="item">
+						<c:forEach items="${flights}" var="item">
 							<tr>
 								<td>${item.getFlight()}</td>
 								<td>${item.getDepAirport()}</td>

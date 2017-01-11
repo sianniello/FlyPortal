@@ -10,8 +10,6 @@
 auth = (String) request.getSession().getAttribute("auth");
 	else request.getRequestDispatcher("login.html").forward(request, response);
 %>
-<jsp:useBean id="showDataBean" class="flights.FlightsBean"
-	scope="request" />
 <jsp:useBean id="delDataBean" class="flights.DeleteFlightBean"
 	scope="request" />
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -88,20 +86,20 @@ function editServletCall(a, b, c, d, e, f, g, h, i) {
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../login.html">Fly Portal</a>
+				<a class="navbar-brand">Fly Portal</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="add_flight.jsp"><span
+				<li class="active"><a href="flights/add_flight.jsp"><span
 						class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
 						flight</a></li>
 			</ul>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="../transactions/transactions.jsp"><span
+				<li class="active"><a href="TransactionsServlet"><span
 						class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
 						Transactions</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>
+				<li class="bg-danger"><a href='LogoutServlet'>logout</a></li>
 			</ul>
 		</div>
 	</nav>

@@ -9,7 +9,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
-import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
 
 /**
@@ -22,21 +21,13 @@ public class TransactionBean implements TransactionBeanRemote {
 	@EJB
 	private ReplicaManagerBeanRemote rm;
 
-	/**
-	 * Default constructor. 
-	 */
-	public TransactionBean() {
-	}
-
+	@Override
 	public LinkedList<Transaction> getTransactions() {
 		LinkedList<Transaction> llt = new LinkedList<Transaction>();
 		String query = "SELECT transactions.*, orders.user, orders.timestamp "
 				+ "FROM transactions join orders on transactions.order_id = orders.orderID GROUP BY orders.orderID;";
-		rm = new ReplicaManagerBean();
-		rm.init();
 		try {
 			ResultSet rs = rm.executeQuery(query);
-
 			while(rs.next())
 				llt.add(new Transaction(rs.getInt("order_id"), rs.getString("user"), 
 						rs.getString("status"), rs.getDouble("amount"), rs.getString("timestamp")));

@@ -21,7 +21,6 @@ import javax.naming.NamingException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
 import order.*;
 import user.*;
@@ -45,12 +44,6 @@ public class BookingBean implements BookingBeanRemote {
 
 	@Resource
 	private SessionContext sessioncontext;
-
-	/**
-	 * Default constructor. 
-	 */
-	public BookingBean() {
-	}
 
 	@Override
 	public void init() {
@@ -167,8 +160,6 @@ public class BookingBean implements BookingBeanRemote {
 
 		String query = "SELECT * FROM flights WHERE flight ='" + flight + 
 				"' AND free_seats >= '" + qty + "' AND DATE_ADD(dep_time, INTERVAL 6 HOUR) > CURDATE();";
-		rm = new ReplicaManagerBean();
-		rm.init();
 		try{
 			ResultSet rs = rm.executeQuery(query);
 
@@ -184,8 +175,6 @@ public class BookingBean implements BookingBeanRemote {
 
 	private int lastOrdersId() {
 		String query = "SELECT MAX(orderID) FROM orders";
-		rm = new ReplicaManagerBean();
-		rm.init();
 		try {
 			ResultSet rs = rm.executeQuery(query);
 			if(rs.next())

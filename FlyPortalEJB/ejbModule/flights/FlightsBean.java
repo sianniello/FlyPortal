@@ -10,7 +10,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
-import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
 import flight.Flight;
 import flight.FlightException;
@@ -27,23 +26,12 @@ public class FlightsBean implements FlightBeanRemote{
 	@EJB
 	private ReplicaManagerBeanRemote rm;
 
-	/**
-	 * Default constructor. 
-	 */
-	public FlightsBean() {
-
-	}
-
 	@Override
 	public LinkedList<Flight> getFlights() {
-
 		flights = new LinkedList<>();
-
 		String query = "SELECT * FROM flights WHERE dep_time >= CURDATE()";
-
 		try {
 			ResultSet rs = rm.executeQuery(query);
-
 			while(rs.next()) 
 				flights.add(new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), Integer.parseInt(rs.getString(8)), Double.parseDouble(rs.getString(9))));
 		} catch (NumberFormatException | SQLException | DatabaseException e) {
@@ -54,12 +42,8 @@ public class FlightsBean implements FlightBeanRemote{
 
 	@Override
 	public Flight getFlight(String f) throws FlightException {
-		rm = new ReplicaManagerBean();
-		rm.init();
-
 		String query = "SELECT * FROM flights WHERE dep_time >= CURDATE() AND flight='"+ f +"'";
 		ResultSet rs;
-		
 		try {
 			rs = rm.executeQuery(query);
 			if(rs.next())
@@ -73,12 +57,8 @@ public class FlightsBean implements FlightBeanRemote{
 	
 	@Override
 	public Flight getFlightInfo(String f) throws FlightException {
-		rm = new ReplicaManagerBean();
-		rm.init();
-
 		String query = "SELECT * FROM flights WHERE flight='"+ f +"'";
 		ResultSet rs;
-		
 		try {
 			rs = rm.executeQuery(query);
 			if(rs.next())
@@ -93,8 +73,6 @@ public class FlightsBean implements FlightBeanRemote{
 	@Override
 	public LinkedList<Flight> getFlights(Set<String> list) throws FlightException {
 		LinkedList<String> aux;
-		rm = new ReplicaManagerBean();
-		rm.init();
 		if(list.size() > 0)
 			try {
 				aux = new LinkedList<>();

@@ -23,8 +23,6 @@ public interface ReplicaManagerBeanRemote {
 
 	boolean executeUpdate(String query) throws DatabaseException;
 
-	void init();
-
-	ResultSet executeQuery(String query, String param) throws DatabaseException;
+	ResultSet executeQuery(String query, String param) throws DatabaseException, SQLException;
 
 }

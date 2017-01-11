@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-
-<jsp:useBean id="transactionBean" class="transaction.TransactionBean"
-	scope="request" />
-<%@page import="java.util.*"%>
-<%@page import="transaction.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
@@ -30,7 +25,7 @@
 	$(document).ready(function() {
 		$(".clickable-row").click(function() {
 			var oid = this.id;
-			$.post("../OrderServlet", {
+			$.post("OrderServlet", {
 			order : oid
 			}, function(data) {
 				$('#ordersTable tbody').html("");
@@ -55,7 +50,7 @@
 	$(window).on('shown.bs.modal', function(){
 		$('#modalTBody > tr').click(function() {
 			var f = $(this).children("td:first").text();
-			$.post("../FlightTable", {
+			$.post("FlightTable", {
 				flight : f
 			}, function(data) {
 				var i = data.split("#");
@@ -83,21 +78,18 @@
 			response.sendRedirect(response.encodeRedirectURL("../errors"
 			+ "/" + "session_timeout.html"));
 		}
-			LinkedList<Transaction> list = new LinkedList<Transaction>();
-			list = transactionBean.getTransactions();
-			pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../login.html">Fly Portal</a>
+				<a class="navbar-brand">Fly Portal</a>
 			</div>
 			<div class="navbar-header">
-				<a class="navbar-brand" href="../flights/admin_flights.jsp">Flights
+				<a class="navbar-brand" href="FlightTable">Flights
 					Table</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="bg-danger"><a href='../LogoutServlet'>logout</a></li>
+				<li class="bg-danger"><a href='LogoutServlet'>logout</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -118,7 +110,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list}" var="item">
+						<c:forEach items="${transactions}" var="item">
 							<tr class="clickable-row" id="${item.getOrderId()}">
 								<td>${item.getOrderId()}</td>
 								<td>${item.getUsername()}</td>

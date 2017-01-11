@@ -1,6 +1,5 @@
 package replica;
 
-import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,25 +8,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.sql.RowSet;
 
-import com.mysql.jdbc.ResultSetRow;
-import com.mysql.jdbc.RowDataStatic;
 import com.sun.rowset.CachedRowSetImpl;
 
-import routing.RoutingBeanRemote;
 import database.*;
+import routing.*;
 
 /**
  * Session Bean implementation class ReplicaManagerBean
@@ -38,42 +33,28 @@ import database.*;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 
-	@EJB
-	RoutingBeanRemote rb;
-
 	Database primary ;
 	ArrayList<Database> rl;
 
 	@PostConstruct
 	void start() {
-		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal");
+		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal", "admin", "password");
 		rl = new ArrayList<Database>();
-		rl.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup"));
+		rl.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup", "admin", "password"));
 	};
 	
-	/**
-	 * Default constructor. 
-	 */
-	public ReplicaManagerBean() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void init() {
-	}
-
 	@Override
 	public Database getPrimary() throws DatabaseException {
 		String url = "jdbc:mysql://" + primary.getIsa().getHostString() + ":" + primary.getIsa().getPort() + "/";
 		String db = primary.getName();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			DriverManager.getConnection(url+db+"?autoReconnect=true&useSSL=false","admin","password");
+			DriverManager.getConnection(url+db+"?autoReconnect=true&useSSL=false", primary.getUsername(), primary.getPassword());
 			return primary;
 		} catch (ClassNotFoundException | SQLException e) {
 			if(!rl.isEmpty()) {
 				primary = rl.get(0);
-				rl.remove(0);
+				removeReplica(rl.get(0));
 				return getPrimary();
 			}
 			else throw new DatabaseException("Replica fail, system crashed");	//No other replica in list
@@ -89,10 +70,10 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 			String db = d.getName();
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				DriverManager.getConnection(url+db+"?autoReconnect=true&useSSL=false","admin","password");
+				DriverManager.getConnection(url+db+"?autoReconnect=true&useSSL=false", d.getUsername(), d.getPassword());
 				return d;
 			} catch (ClassNotFoundException | SQLException e) {
-				rl.remove(d);
+				removeReplica(d);
 				return getReplica();
 			}
 		}
@@ -107,7 +88,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 		String dbName = primary.getName();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
+			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false", primary.getUsername(), primary.getPassword());
 			Statement stmt = con.createStatement();
 			affectedRows = stmt.executeUpdate(query);
 			if(affectedRows > 0) {
@@ -127,14 +108,14 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 				dbName = db.getName();
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
+					Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false", db.getUsername(), db.getPassword());
 					Statement stmt = con.createStatement();
 					if(stmt.executeUpdate(query) != affectedRows)
 						throw new DatabaseException("Inconsistence on replica!");
 					con.close();
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
-					rl.remove(db);
+					removeReplica(db);
 					if(rl.isEmpty())
 						throw new DatabaseException("No more replica.");
 				}
@@ -152,7 +133,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 		CachedRowSetImpl crs = new CachedRowSetImpl();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
+			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false", db.getUsername(), db.getPassword());
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			crs.populate(rs);
@@ -166,24 +147,27 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 	}
 
 	@Override
-	public ResultSet executeQuery(String query, String param) throws DatabaseException {
+	public CachedRowSetImpl executeQuery(String query, String param) throws DatabaseException, SQLException {
 
-		HashSet<Database> dbSet = new HashSet<>();
+		Set<Database> dbSet = new HashSet<>();
 		dbSet.add(primary);
 		dbSet.addAll(rl);
-		Database db = rb.Geo(dbSet);
+		Database db = Routing.Parity(dbSet, param);
 
 		String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
 		String dbName = db.getName();
+		CachedRowSetImpl crs = new CachedRowSetImpl();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
+			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false", db.getUsername(), db.getPassword());
 			Statement stmt = con.createStatement();
-			return stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
+			crs.populate(rs);
+			return crs;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			primary = getPrimary();
-			executeQuery(query, param);
+			executeQuery(query);
 		}
 		return null;
 	}

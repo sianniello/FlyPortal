@@ -10,11 +10,11 @@
 	<p>login success! Welcome <%out.println(session.getAttribute("username"));%></p>
 	<%
 		if (request.getSession().getAttribute("auth") == "admin") {
-			out.println("<a href='FlightTableServlet'>Flights table</a>");
+			out.println("<a href='FlightTable'>Flights table</a>");
 			out.println("<a href='visitors.html'>Visitors list</a>");
 		}
 		else
-			out.println("<a href='flights/flights.jsp'>Flights table</a>");
+			out.println("<a href='FlightTable'>Flights table</a>");
 	%>
 </body>
 </html>
