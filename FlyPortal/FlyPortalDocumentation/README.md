@@ -8,7 +8,7 @@ Il client è un comunissimo browser web (Chrome, Firefox, Safari, ...)
 ## Front-End
 ###JSP
 Permette di scrivere codice serverside e di iniettarlo direttamente nel codice html.
-Inoltre è possibile invocare direttamete bean e includere il risultato della loro chiamata
+Inoltre è possibile invocare direttamente bean e includere il risultato della loro chiamata
 nel contesto della pagina come attributo.
 ###  Servlet
 Sono organizzate secondo la loro funzionalità, ogni servlet ha uno specifico compito rendendole estremamente semplici.
@@ -50,7 +50,19 @@ dati a piacimento in modo da rispondere in maniera efficiente a un aumento delle
 ###Bean
 Tutti i bean utilizzati sono stateless con interfaccaia remota in modo da ottimizzare scalabilità e migrabilità.
 Per la gestione delle visite e delle risorse dati si sono utilizzati due bean di tipo singleton.
+Un primo livello della logica di business ha il compito di creare
+le query e ricevere le richeste dei client. Un livello aggiuntivo logicamente
+collegato con i database eseguono le query ricevute dal livello precedente
+e presentano i loro risultati.
+Per gestire le transazione si è utilizzato un apposito bean (_BookingBeanRemote_) e permette
+di con gestione di tipo _BEAN_ in modo da implementare il 2PC.
 
+###WebSocket
+Si è utilizzato un server WebSocket con approccio publisher/subscriber: 
+i subscriber aprono una nuova connessione verso il server WS (_FlyPortalWS_) restando in attesa di una notifica; 
+i publisher si attiveranno non appena viene eseguita una modifica nei dati, verrà quindi inviato
+un dummy message che notificherà i subscriber. Ricevuta la notify i client potranno
+eseguire un refresh dell'elemento. 
 
 ###Bug
 ![Alt text](bug.png "Glassfish bug")
@@ -60,3 +72,5 @@ di scalabilità.
 
 
 <https://java.net/jira/browse/GLASSFISH-21314>
+
+![Alt text](FlyPortal Class.png "Class Diagram")
