@@ -7,7 +7,9 @@ Il client è un comunissimo browser web (Chrome, Firefox, Safari, ...)
 
 ## Front-End
 ###JSP
-Permette
+Permette di scrivere codice serverside e di iniettarlo direttamente nel codice html.
+Inoltre è possibile invocare direttamete bean e includere il risultato della loro chiamata
+nel contesto della pagina come attributo.
 ###  Servlet
 Sono organizzate secondo la loro funzionalità, ogni servlet ha uno specifico compito rendendole estremamente semplici.
 Alcune servlet permettono la gestione dei form tramite metodo post (es. _RegistrationServlet_), altre hanno in incarico la gestione delle richeste __AJAX__
@@ -31,11 +33,30 @@ da memorizzare il codice del volo di tipo stringa e il numero di posti prenotati
 In questo modo si alleggerisce parecchio la sessione e di conseguenza i messaggi in transito sulla rete.
 
 ##Back-End
+###Database
+Si tratta di un pool di database mysql composto da un primary e uno slave secondo una configurazione
+di gestione delle repliche passiva. Le query sono gestite dal primary ma è possibile
+utilizzare il bean _routing_ per implementare un sistema di bilanciamento del carico tra le risorse.
+Gli update vengono gestiti dal primary, un bean è dedicato all'aggiornamento delle replice e al loro
+eventuale fault.
+
+Tramite modifiche minime è possibile aggiungere, eliminare e modificare le risorse
+dati a piacimento in modo da rispondere in maniera efficiente a un aumento delle richieste utente.
+
 
 ![Alt text](ER.png "E-R Diagram")
 
-![Alt text](bug.png "Glassfish bug")
 
+###Bean
+Tutti i bean utilizzati sono stateless con interfaccaia remota in modo da ottimizzare scalabilità e migrabilità.
+Per la gestione delle visite e delle risorse dati si sono utilizzati due bean di tipo singleton.
+
+
+###Bug
+![Alt text](bug.png "Glassfish bug")
+A causa del bug riportato non è stato possibile gestire i database direttamente dal server glassfish.
+Tuttavia è stato possibile una gestione esplicita delle risorse senza compromettere le qualità
+di scalabilità.
 
 
 <https://java.net/jira/browse/GLASSFISH-21314>
