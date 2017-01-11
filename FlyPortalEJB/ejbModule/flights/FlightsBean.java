@@ -38,8 +38,6 @@ public class FlightsBean implements FlightBeanRemote{
 	public LinkedList<Flight> getFlights() {
 
 		flights = new LinkedList<>();
-		rm = new ReplicaManagerBean();
-		rm.init();
 
 		String query = "SELECT * FROM flights WHERE dep_time >= CURDATE()";
 

@@ -1,12 +1,9 @@
 package login;
 
 import java.sql.ResultSet;
-
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
-import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
 import user.User;
 
@@ -32,7 +29,6 @@ public class LoginBean implements LoginBeanRemote {
 
 	@Override
 	public boolean login(User u, String s) {
-		rm = new ReplicaManagerBean();
 		String query = "SELECT * FROM " + (s.equals("user")? "users" : "db_managers") + " WHERE username ='" + u.getUsername() + "' AND password='" + u.getPassword() + "';";
 		try{
 			ResultSet rs = rm.executeQuery(query);

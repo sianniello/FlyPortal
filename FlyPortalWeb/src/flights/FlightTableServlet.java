@@ -15,7 +15,7 @@ import flights.FlightsBean;
 /**
  * Servlet implementation class FlightTable
  */
-@WebServlet("/FlightTable")
+@WebServlet("/FlightTableServlet")
 public class FlightTableServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,8 @@ public class FlightTableServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("flights", fb.getFlights());
-		request.getRequestDispatcher("flights/flights.jsp").forward(request, response);
+		if(request.getSession().getAttribute("auth").equals("auth"))
+			request.getRequestDispatcher("flights/admin_flights.jsp").forward(request, response);
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class FlightTableServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String flight = request.getParameter("flight");
-		
+
 		try {
 			Flight f = fb.getFlightInfo(flight);
 			response.getWriter().println(f.getDepAirport() + "#" + f.getArrAirport() + "#" + f.getDepTime() + "#" +

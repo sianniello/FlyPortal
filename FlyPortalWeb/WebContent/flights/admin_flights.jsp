@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<%@page import="flights.FlightsBean"%>
 <%@page import="flights.DeleteFlightBeanRemote"%>
 <%@page import="flight.Flight"%>
-<%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -86,10 +84,6 @@ function editServletCall(a, b, c, d, e, f, g, h, i) {
 	        session.setAttribute("message", "Please Login");
 	         response.sendRedirect(response.encodeRedirectURL("../errors" + "/" + "session_timeout.html"));
 	    }
-		
-			LinkedList<Flight> list = new LinkedList<Flight>();
-			list = showDataBean.getFlights();
-			pageContext.setAttribute("list", list);
 	%>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -132,7 +126,7 @@ function editServletCall(a, b, c, d, e, f, g, h, i) {
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${list}" var="item">
+						<c:forEach items="${flights}" var="item">
 							<tr>
 								<td><input id="${item.getFlight()}mod" type="text"
 									value="${item.getFlight()}" /></td>

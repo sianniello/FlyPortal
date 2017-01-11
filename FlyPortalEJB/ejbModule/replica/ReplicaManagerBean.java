@@ -1,5 +1,6 @@
 package replica;
 
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,13 +9,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.sql.RowSet;
+
+import com.mysql.jdbc.ResultSetRow;
+import com.mysql.jdbc.RowDataStatic;
+import com.sun.rowset.CachedRowSetImpl;
 
 import routing.RoutingBeanRemote;
 import database.*;
@@ -23,24 +33,24 @@ import database.*;
  * Session Bean implementation class ReplicaManagerBean
  */
 @Singleton
+@Startup
 @LocalBean
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 
+	@EJB
 	RoutingBeanRemote rb;
 
-	Database primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal");
+	Database primary ;
+	ArrayList<Database> rl;
 
-	ArrayList<Database> rl = new ArrayList<Database>() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup"));
-		}
+	@PostConstruct
+	void start() {
+		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal");
+		rl = new ArrayList<Database>();
+		rl.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup"));
 	};
+	
 	/**
 	 * Default constructor. 
 	 */
@@ -133,17 +143,20 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 	}
 
 	@Override
-	public ResultSet executeQuery(String query) throws DatabaseException {
+	public CachedRowSetImpl executeQuery(String query) throws DatabaseException, SQLException {
 
 		Database db = primary;
 
 		String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
 		String dbName = db.getName();
+		CachedRowSetImpl crs = new CachedRowSetImpl();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
 			Statement stmt = con.createStatement();
-			return stmt.executeQuery(query);
+			ResultSet rs = stmt.executeQuery(query);
+			crs.populate(rs);
+			return crs;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			primary = getPrimary();

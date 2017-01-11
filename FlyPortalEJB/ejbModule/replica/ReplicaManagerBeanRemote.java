@@ -1,9 +1,10 @@
 package replica;
 
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import javax.ejb.Remote;
 
+import com.sun.rowset.CachedRowSetImpl;
 import database.Database;
 import database.DatabaseException;
 
@@ -18,7 +19,7 @@ public interface ReplicaManagerBeanRemote {
 
 	Database getReplica() throws DatabaseException;
 
-	ResultSet executeQuery(String query) throws DatabaseException;
+	CachedRowSetImpl executeQuery(String query) throws DatabaseException, SQLException;
 
 	boolean executeUpdate(String query) throws DatabaseException;
 
