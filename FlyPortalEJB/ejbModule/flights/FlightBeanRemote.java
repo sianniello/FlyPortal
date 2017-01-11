@@ -17,4 +17,6 @@ public interface FlightBeanRemote {
 
 	LinkedList<Flight> getFlights(Set<String> list) throws FlightException;
 
+	Flight getFlightInfo(String f) throws FlightException;
+
 }

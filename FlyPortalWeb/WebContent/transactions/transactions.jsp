@@ -53,7 +53,7 @@
 	</script>
 	<script>
 	$(window).on('shown.bs.modal', function(){
-		$('#modalTBody > tr').mouseenter(function() {
+		$('#modalTBody > tr').click(function() {
 			var f = $(this).children("td:first").text();
 			$.post("../FlightTable", {
 				flight : f
@@ -69,7 +69,7 @@
 			});
 			$('#infoModal').modal('show');
 		});
-		$('#modalTBody > tr').mouseleave(function() {
+		$('#infomodal').click(function() {
 			$('#infoModal').modal('hide');
 		});
 	});
@@ -166,7 +166,7 @@
 		</div>
 	</div>
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-		id="infoModal" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		id="infoModal" aria-labelledby="myLargeModalLabel">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<table class="table table-striped" id="flightTable">

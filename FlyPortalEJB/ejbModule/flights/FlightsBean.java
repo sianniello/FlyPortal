@@ -72,6 +72,25 @@ public class FlightsBean implements FlightBeanRemote{
 		}
 		throw new FlightException("Flight not found");
 	}
+	
+	@Override
+	public Flight getFlightInfo(String f) throws FlightException {
+		rm = new ReplicaManagerBean();
+		rm.init();
+
+		String query = "SELECT * FROM flights WHERE flight='"+ f +"'";
+		ResultSet rs;
+		
+		try {
+			rs = rm.executeQuery(query);
+			if(rs.next())
+				return new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), Integer.parseInt(rs.getString(8)), Double.parseDouble(rs.getString(9)));
+			else throw new FlightException("Flight not found");
+		} catch (DatabaseException | NumberFormatException | SQLException e) {
+			e.printStackTrace();
+		}
+		throw new FlightException("Flight not found");
+	}
 
 	@Override
 	public LinkedList<Flight> getFlights(Set<String> list) throws FlightException {

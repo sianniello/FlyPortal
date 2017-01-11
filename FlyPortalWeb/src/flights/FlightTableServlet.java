@@ -45,8 +45,9 @@ public class FlightTableServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String flight = request.getParameter("flight");
+		
 		try {
-			Flight f = fb.getFlight(flight);
+			Flight f = fb.getFlightInfo(flight);
 			response.getWriter().println(f.getDepAirport() + "#" + f.getArrAirport() + "#" + f.getDepTime() + "#" +
 					f.getCompany() + "#" + f.getState() + "#" + f.getFreeSeats());
 		} catch (FlightException e) {
