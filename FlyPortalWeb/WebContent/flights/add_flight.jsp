@@ -47,12 +47,12 @@ $(window).on('load', function() {
 
 <body>
 	<%
-		LinkedList<Airport> airportsList = new LinkedList<Airport>();
+		/* LinkedList<Airport> airportsList = new LinkedList<Airport>();
 			LinkedList<String> airlinesList = new LinkedList<String>();
 		airportsList = FlyPortalData.getAirports();
 		airlinesList = FlyPortalData.getAirlines();
 		pageContext.setAttribute("airportsList", airportsList);
-		pageContext.setAttribute("airlinesList", airlinesList);
+		pageContext.setAttribute("airlinesList", airlinesList); */
 	%>
 	<div class="se-pre-con"></div>
 	<nav class="navbar navbar-default">
