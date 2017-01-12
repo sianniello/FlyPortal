@@ -12,6 +12,4 @@ public interface BookingBeanRemote {
 
 	boolean addBooking(Order order) throws UserException, IllegalStateException, SecurityException, SystemException, NamingException;
 
-	void init();
-	
 }

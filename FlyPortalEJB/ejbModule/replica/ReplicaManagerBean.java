@@ -41,6 +41,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal", "admin", "password");
 		rl = new ArrayList<Database>();
 		rl.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup", "admin", "password"));
+		//rl.add(new Database(new InetSocketAddress("sql7.freemysqlhosting.net", 3306), "sql7152971", " sql7152971", "FNars4R9cQ"));
 	};
 	
 	@Override

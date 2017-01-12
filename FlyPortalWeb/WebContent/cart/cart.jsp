@@ -27,7 +27,7 @@ $(document).ready(function() {
         if (confirm("Are you sure you want to remove your booking from your shopping chart?")) a(b);
     });
     function a(a) {
-        $.post("../CartServlet", {
+        $.post("CartServlet", {
             operation: "remove",
             flight: a
         }, function(a) {
@@ -38,12 +38,12 @@ $(document).ready(function() {
     $("#buyBtn").click(function() {
         var a = "${sessionScope.cart}";
         alert("Your cart: " + a);
-        $.post("../BookingServlet", null, function(a) {
+        $.post("BookingServlet", null, function(a) {
             alert(a);
             $("#cartTable > tbody").html("");
             $("#buyBtn").hide();
             if ("Congratulations your order has been confirmed!" == a) {
-                var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/echoWS");
+                var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
                 b.onopen = function(c) {
                     b.send(a);
                 };
@@ -60,7 +60,7 @@ $(document).ready(function() {
 			<a class="navbar-brand">Fly Portal</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="../FlightTable">Flights table</a></li>
+			<li class="active"><a href="FlightTable">Flights table</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<%

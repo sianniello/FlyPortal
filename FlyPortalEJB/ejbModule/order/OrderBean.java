@@ -9,7 +9,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import database.DatabaseException;
-import replica.ReplicaManagerBean;
 import replica.ReplicaManagerBeanRemote;
 
 /**

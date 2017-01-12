@@ -1,13 +1,7 @@
 package booking;
 
-import java.net.InetSocketAddress;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.LinkedList;
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -24,7 +18,6 @@ import javax.transaction.UserTransaction;
 import replica.ReplicaManagerBeanRemote;
 import order.*;
 import user.*;
-import database.Database;
 import database.DatabaseException;
 import flight.Flight;
 import flight.FlightException;
@@ -40,23 +33,11 @@ public class BookingBean implements BookingBeanRemote {
 	@EJB
 	private ReplicaManagerBeanRemote rm;
 
-	private LinkedList<Database> res;
-
 	@Resource
-	private SessionContext sessioncontext;
-
-	@Override
-	public void init() {
-		res = new LinkedList<>();
-		res.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal"));
-		res.add(new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal_backup"));
-	}
+	private UserTransaction userTransaction;
 
 	@Override
 	public boolean addBooking(Order order) throws NamingException, IllegalStateException, SecurityException, SystemException  {
-		Context context = new InitialContext();
-		UserTransaction userTransaction =
-				(UserTransaction) context.lookup("java:comp/UserTransaction");
 		try {
 			userTransaction.begin();
 			Double total = 0.0;
@@ -65,15 +46,9 @@ public class BookingBean implements BookingBeanRemote {
 				lid++;
 				for(String flight : order.getCart().keySet()) {
 					Flight x = check(flight, order.getCart().get(flight));
-					if(x != null) {
-						insertOrder(order, lid, x);
-						updateSeats(order, x.getFlight());
-						total += total + (order.getCart().get(flight) * x.getPrice());
-					}
-					else {
-						userTransaction.rollback();
-						throw new FlightException("Flight not avilable");
-					}
+					insertOrder(order, lid, x);
+					updateSeats(order, x.getFlight());
+					total += total + (order.getCart().get(flight) * x.getPrice());
 				}
 				insertTransaction(lid, total);
 				updateAccount(order.getUser(), total);
@@ -90,62 +65,32 @@ public class BookingBean implements BookingBeanRemote {
 		return false;
 	}
 
-	private void updateAccount(String user, Double total) throws SQLException, UserException {
-		for(Database db : res) {
-			String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
-			String dbName = db.getName();
-			String query = "UPDATE users SET account=account-" + total + " WHERE username='"+ user +"';";
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 0) 
-				throw new UserException("User's account is empty");
-			con.close();
-		}
+	private void updateAccount(String user, Double total) throws SQLException, UserException, DatabaseException {
+		String query = "UPDATE users SET account=account-" + total + " WHERE username='"+ user +"';";
+		if(!rm.executeUpdate(query)) 
+			throw new UserException("User's account is empty");
 	}
+
 
 	private void insertOrder(Order order, int lid, Flight x) throws Exception {
-		for(Database db : res) {
-			String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
-			String dbName = db.getName();
-			String query = "INSERT INTO orders (orderID, user, flight, quantity, price) "
-					+ "VALUES ('" + (lid) + "', '" + order.getUser() + "', '" + x.getFlight() + "', "
-					+ "'" + order.getCart().get(x.getFlight()) + "', '" + x.getPrice() * order.getCart().get(x.getFlight()) + "')";
-
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 0) 
-				throw new Exception("Generic exception");
-			con.close();
-		}
+		String query = "INSERT INTO orders (orderID, user, flight, quantity, price) "
+				+ "VALUES ('" + (lid) + "', '" + order.getUser() + "', '" + x.getFlight() + "', "
+				+ "'" + order.getCart().get(x.getFlight()) + "', '" + x.getPrice() * order.getCart().get(x.getFlight()) + "')";
+		if(!rm.executeUpdate(query)) 
+			throw new Exception("Generic exception");
 	}
 
-	private void updateSeats(Order order, String f) throws SQLException, FlightException {
-		for(Database db : res) {
-			String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
-			String dbName = db.getName();
-			String query = "UPDATE flights SET free_seats=free_seats - "+ order.getCart().get(f) + " WHERE flight='" + f + "';";
-
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 0) 
-				throw new FlightException("No free seats");
-			con.close();
-		}
+	private void updateSeats(Order order, String f) throws SQLException, FlightException, DatabaseException {
+		String query = "UPDATE flights SET free_seats=free_seats - "+ order.getCart().get(f) + " WHERE flight='" + f + "';";
+		if(!rm.executeUpdate(query)) 
+			throw new FlightException("No free seats");
 	}
 
 	private void insertTransaction(int lid, double total) throws Exception {
-		for(Database db : res) {
-			String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
-			String dbName = db.getName();
-			String query = "INSERT INTO transactions (order_id, amount, status) VALUES ('"
-					+ lid + "', '" + total + "', 'confirmed');";
-
-			Connection con = DriverManager.getConnection(url+dbName+"?autoReconnect=true&useSSL=false","admin","password");
-			Statement stmt = con.createStatement();
-			if(stmt.executeUpdate(query) == 0) 
-				throw new Exception("Generic exception");
-			con.close();
-		}
+		String query = "INSERT INTO transactions (order_id, amount, status) VALUES ('"
+				+ lid + "', '" + total + "', 'confirmed');";
+		if(!rm.executeUpdate(query)) 
+			throw new Exception("Generic exception");
 	}
 
 	/**
@@ -155,35 +100,24 @@ public class BookingBean implements BookingBeanRemote {
 	 * @param flight
 	 * @return
 	 * @throws FlightException 
+	 * @throws SQLException 
+	 * @throws DatabaseException 
 	 */
-	private Flight check(String flight, int qty) throws FlightException {
-
+	private Flight check(String flight, int qty) throws FlightException, DatabaseException, SQLException {
 		String query = "SELECT * FROM flights WHERE flight ='" + flight + 
 				"' AND free_seats >= '" + qty + "' AND DATE_ADD(dep_time, INTERVAL 6 HOUR) > CURDATE();";
-		try{
-			ResultSet rs = rm.executeQuery(query);
-
-			if(rs.next())
-				return new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getDouble(9));
-			else return null;
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		throw new FlightException("Flight not present");
+		ResultSet rs = rm.executeQuery(query);
+		if(rs.next())
+			return new Flight(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getDouble(9));
+		else throw new FlightException("Flight not present");
 	}
 
-	private int lastOrdersId() {
+	private int lastOrdersId() throws DatabaseException, SQLException {
 		String query = "SELECT MAX(orderID) FROM orders";
-		try {
-			ResultSet rs = rm.executeQuery(query);
-			if(rs.next())
-				return rs.getInt(1);
-		} catch (DatabaseException | SQLException e) {
-			e.printStackTrace();
-			return -1;
-		}
-		return -1;
+		ResultSet rs = rm.executeQuery(query);
+		if(rs.next())
+			return rs.getInt(1);
+		else throw new DatabaseException();
 	}
 
 }
