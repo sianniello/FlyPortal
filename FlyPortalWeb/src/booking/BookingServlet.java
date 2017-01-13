@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import javax.ejb.EJB;
 import javax.naming.NamingException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

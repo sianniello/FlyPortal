@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from FlyPortalDataService WSDL service -->
+
+  <service name="FlyPortalData" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://webServices.com"/>
+      <parameter name="wsdlServiceElement" value="FlyPortalDataService"/>
+      <parameter name="schemaQualified" value="http://webServices.com"/>
+      <parameter name="wsdlServicePort" value="FlyPortalData"/>
+      <parameter name="className" value="com.webServices.FlyPortalData"/>
+      <parameter name="wsdlPortType" value="FlyPortalData"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://webServices.com" xmlns:retNS="http://webServices.com" xmlns:rtns="http://webServices.com" xmlns:tns="http://webServices.com" name="getAirlines" qname="operNS:getAirlines" returnQName="retNS:getAirlinesReturn" returnType="rtns:ArrayOf_xsd_anyType" returnItemQName="tns:item" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://webServices.com" xmlns:retNS="http://webServices.com" xmlns:rtns="http://webServices.com" xmlns:tns="http://webServices.com" name="getAirports" qname="operNS:getAirports" returnQName="retNS:getAirportsReturn" returnType="rtns:ArrayOf_xsd_anyType" returnItemQName="tns:item" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="getAirlines getAirports"/>
+
+      <typeMapping xmlns:ns="http://webServices.com" qname="ns:&gt;getAirportsResponse" type="java:com.webServices.GetAirportsResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://webServices.com" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_anyType" type="java:java.lang.Object[]" innerType="cmp-ns:anyType" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://webServices.com" qname="ns:&gt;getAirlinesResponse" type="java:com.webServices.GetAirlinesResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://webServices.com" qname="ns:&gt;getAirlines" type="java:com.webServices.GetAirlines" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://webServices.com" qname="ns:&gt;getAirports" type="java:com.webServices.GetAirports" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>

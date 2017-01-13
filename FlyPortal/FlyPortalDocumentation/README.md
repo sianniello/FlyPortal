@@ -57,6 +57,10 @@ e presentano i loro risultati.
 Per gestire le transazione si è utilizzato un apposito bean (_BookingBeanRemote_) e permette
 di con gestione di tipo _BEAN_ in modo da implementare il 2PC.
 
+
+__Scalabilità e migrabilità:__ nessun bean mantiene in memoria informazioni sullo stato della connessione, possono scalare orizzontalmente secondo esigenza.
+Le interfacce remote consentono ai client di utilizzare differenti versioni di _JVM_
+
 ###WebSocket
 Si è utilizzato un server WebSocket con approccio publisher/subscriber: 
 i subscriber aprono una nuova connessione verso il server WS (_FlyPortalWS_) restando in attesa di una notifica; 
@@ -73,4 +77,4 @@ di scalabilità.
 
 <https://java.net/jira/browse/GLASSFISH-21314>
 
-![Alt text](FlyPortal Class.png "Class Diagram")
+![Alt text](Class Diagram0.png "Class Diagram")

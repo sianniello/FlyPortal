@@ -5,6 +5,6 @@
     <welcome-file>login.html</welcome-file>
   </welcome-file-list>
   <error-page>
-    <location>/../login.html</location>
+    <location>/login.html</location>
   </error-page>
 </web-app>

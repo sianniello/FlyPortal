@@ -89,7 +89,7 @@ function editServletCall(a, b, c, d, e, f, g, h, i) {
 				<a class="navbar-brand">Fly Portal</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="flights/add_flight.jsp"><span
+				<li class="active"><a href="FlightDataServlet"><span
 						class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
 						flight</a></li>
 			</ul>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<%@page import="javax.xml.rpc.Service"%>
+<%@page import="javax.xml.rpc.Call"%>
+<%@page import="com.sun.xml.rpc.client.dii.webservice.WebService"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.util.*"%>
-<%@page import="flyPortalData.FlyPortalData"%>
-<%@page import="flyPortalData.Airport"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,10 +15,8 @@
 <link
 	href="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css"/>"
 	rel="stylesheet" />
-	
-	<link
-	href="<c:url value="../components/css/myCSS.css"/>"
-	rel="stylesheet" />
+
+<link href="<c:url value="components/css/myCSS.css"/>" rel="stylesheet" />
 
 <!-- JQuery -->
 <script
@@ -35,7 +34,8 @@
 <script
 	src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"/>"></script>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 
 <script>
 $(window).on('load', function() {
@@ -47,12 +47,7 @@ $(window).on('load', function() {
 
 <body>
 	<%
-		/* LinkedList<Airport> airportsList = new LinkedList<Airport>();
-			LinkedList<String> airlinesList = new LinkedList<String>();
-		airportsList = FlyPortalData.getAirports();
-		airlinesList = FlyPortalData.getAirlines();
-		pageContext.setAttribute("airportsList", airportsList);
-		pageContext.setAttribute("airlinesList", airlinesList); */
+	
 	%>
 	<div class="se-pre-con"></div>
 	<nav class="navbar navbar-default">
@@ -61,8 +56,7 @@ $(window).on('load', function() {
 				<a class="navbar-brand" href="../login.html">Fly Portal</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="../FlightTable">Flights
-						table</a></li>
+				<li class="active"><a href="../FlightTable">Flights table</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
@@ -81,7 +75,8 @@ $(window).on('load', function() {
 				<form action="../AddFlightServlet" method="post" id="addFlightForm">
 					<div class="form-group">
 						<label for="flight">Flight</label> <input type="text"
-							class="form-control" id="flight" name="flight" required style="text-transform:uppercase"/>
+							class="form-control" id="flight" name="flight" required
+							style="text-transform: uppercase" />
 					</div>
 					<div class="form-group">
 						<label for="dep_airport">Departure airport</label> <select

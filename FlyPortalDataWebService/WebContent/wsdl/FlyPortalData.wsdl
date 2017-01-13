@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webServices.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://webServices.com" xmlns:intf="http://webServices.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://webServices.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="getAirlines">
+    <complexType/>
+   </element>
+   <element name="getAirlinesResponse">
+    <complexType>
+     <sequence>
+      <element name="getAirlinesReturn" type="impl:ArrayOf_xsd_anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <element name="getAirports">
+    <complexType/>
+   </element>
+   <element name="getAirportsResponse">
+    <complexType>
+     <sequence>
+      <element name="getAirportsReturn" type="impl:ArrayOf_xsd_anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getAirportsResponse">
+
+      <wsdl:part element="impl:getAirportsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAirlinesResponse">
+
+      <wsdl:part element="impl:getAirlinesResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAirportsRequest">
+
+      <wsdl:part element="impl:getAirports" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAirlinesRequest">
+
+      <wsdl:part element="impl:getAirlines" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="FlyPortalData">
+
+      <wsdl:operation name="getAirlines">
+
+         <wsdl:input message="impl:getAirlinesRequest" name="getAirlinesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAirlinesResponse" name="getAirlinesResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAirports">
+
+         <wsdl:input message="impl:getAirportsRequest" name="getAirportsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAirportsResponse" name="getAirportsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="FlyPortalDataSoapBinding" type="impl:FlyPortalData">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getAirlines">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAirlinesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAirlinesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAirports">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAirportsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAirportsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="FlyPortalDataService">
+
+      <wsdl:port binding="impl:FlyPortalDataSoapBinding" name="FlyPortalData">
+
+         <wsdlsoap:address location="http://localhost:8080/FlyPortalDataWebService/services/FlyPortalData"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

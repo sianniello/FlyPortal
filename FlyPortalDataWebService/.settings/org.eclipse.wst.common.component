@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="FlightsWebService">
+    <wb-module deploy-name="FlyPortalDataWebService">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resource"/>
-        <property name="context-root" value="FlightsWebService"/>
-        <property name="java-output-path" value="/FlightsWebService/build/classes"/>
+        <property name="context-root" value="FlyPortalDataWebService"/>
+        <property name="java-output-path" value="/FlyPortalDataWebService/build/classes"/>
     </wb-module>
 </project-modules>

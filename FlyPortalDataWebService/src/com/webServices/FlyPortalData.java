@@ -1,4 +1,4 @@
-package flyPortalData;
+package com.webServices;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,14 +6,18 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService
 public class FlyPortalData {
 
 	static BufferedReader br = null;
 	static FileReader fr = null;
 
+	@WebMethod
 	public LinkedList<Airport> getAirports() {
-		ClassLoader classLoader = getClass().getClassLoader();
-		final String FILENAME = classLoader.getResource("airports.dat").getFile();
+		final String FILENAME = "C://Users//Stefano//git//FlyPortal//FlyPortalUtilities//resources//airports.dat";
 		LinkedList<Airport> airportsList = new LinkedList<Airport>();
 		try {
 
@@ -47,9 +51,9 @@ public class FlyPortalData {
 		return airportsList;
 	}
 
+	@WebMethod
 	public LinkedList<String> getAirlines() {
-		ClassLoader classLoader = getClass().getClassLoader();
-		final String FILENAME = classLoader.getResource("airlines.dat").getFile();
+		final String FILENAME = "C://Users//Stefano//git//FlyPortal//FlyPortalUtilities//resources//airlines.dat";
 		LinkedList<String> airlinesList = new LinkedList<String>();
 		try {
 
