@@ -1,6 +1,6 @@
 # FlyPortal
 
-![Alt text](FlyPortalDocumentation/Architecture.png "Enterprise Architecture")
+![Alt text](FlyPortal/FlyPortalDocumentation/Architecture.png "Enterprise Architecture")
 
 ##Client
 Il client è un comune browser web (Chrome, Firefox, Safari, ...)
