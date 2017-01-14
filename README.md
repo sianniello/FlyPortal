@@ -27,7 +27,7 @@ Permettono di mantenere informazioni sullo stato della sessione client-server in
 * __username__: nome utente
 
 
-* __cart__:	struttura dati di tipo _TreeMap_ che permette di memorizzare i voli prenotati dall'utente. La struttura dati � organizzate in modo 
+* __cart__:	struttura dati di tipo _TreeMap_ che permette di memorizzare i voli prenotati dall'utente. La struttura dati è organizzata in modo 
 da memorizzare il codice del volo di tipo stringa e il numero di posti prenotati, non è infatti necessario dover inserire all'interno del carrello
 (e quindi della sessione) le informazioni complete sul volo in quanto possono essere ricavate al momento del bisogno utilizzando il codice (chiave).
 In questo modo si alleggerisce parecchio la sessione e di conseguenza i messaggi in transito sulla rete.
@@ -44,7 +44,7 @@ Tramite modifiche minime è possibile aggiungere, eliminare e modificare le riso
 dati a piacimento in modo da rispondere in maniera efficiente a un aumento delle richieste utente.
 
 
-![Alt text](ER.png "E-R Diagram")
+![Alt text](FlyPortal/FlyPortalDocumentation/ER.png "E-R Diagram")
 
 
 ###Bean
@@ -69,7 +69,7 @@ un dummy message che notificherà i subscriber. Ricevuta la notify i client potr
 eseguire un refresh dell'elemento. 
 
 ###Bug
-![Alt text](bug.png "Glassfish bug")
+![Alt text](FlyPortal/FlyPortalDocumentation/bug.png "Glassfish bug")
 A causa del bug riportato non è stato possibile gestire i database direttamente dal server glassfish.
 Tuttavia è stato possibile una gestione esplicita delle risorse senza compromettere le qualità
 di scalabilità.
@@ -77,4 +77,4 @@ di scalabilità.
 
 <https://java.net/jira/browse/GLASSFISH-21314>
 
-![Alt text](Class Diagram0.png "Class Diagram")
+![Alt text](FlyPortal/FlyPortalDocumentation/Class Diagram0.png "Class Diagram")
