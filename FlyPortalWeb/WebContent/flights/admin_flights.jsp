@@ -47,7 +47,7 @@ $(document).ready(function() {
 });
 
 function removeServletCall(a) {
-    $.post("../DeleteFlightServlet", {
+    $.post("DeleteFlightServlet", {
         flight: a
     }, function(a) {
         alert(a);
@@ -61,7 +61,7 @@ function removeServletCall(a) {
 }
 
 function editServletCall(a, b, c, d, e, f, g, h, i) {
-    $.post("../EditFlightServlet", {
+    $.post("EditFlightServlet", {
         flight: a + "#" + b + "#" + c + "#" + d + "#" + e + "#" + f + "#" + g + "#" + h + "#" + i
     }, function(a) {
         var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
