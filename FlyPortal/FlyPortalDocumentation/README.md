@@ -113,9 +113,11 @@ di scalabilità.
 ##Test Application
 Tramite queste credenziali è possibile loggarsi e utilizzare l'applicazione
 * Accesso come db_manager
+
  __username__: stefano
  __password__: ciao
  
 * Accesso come user
+
 __username__: paperino
  __password__: paperino
