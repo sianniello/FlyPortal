@@ -56,7 +56,7 @@ $(window).on('load', function() {
 				<a class="navbar-brand">Fly Portal</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="../FlightTable">Flights table</a></li>
+				<li class="active"><a href="FlightTable">Flights table</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%
