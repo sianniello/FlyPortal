@@ -117,7 +117,6 @@ $(window).on('load', function() {
 					<div class="form-group">
 						<label for="company">Company</label> <select class="form-control"
 							id="company" name="company">
-							<option></option>
 							<c:forEach items="${airlinesList}" var="value">
 								<option value="${value}">${value}</option>
 							</c:forEach>

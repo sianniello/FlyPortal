@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import flyPortalData.FlyPortalData;
+
 
 /**
  * Servlet implementation class FlightDataServlet
@@ -16,13 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 public class FlightDataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	
-	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//System.out.println(service.getAirports());
+		request.setAttribute("airportsList", FlyPortalData.getAirports());
+		request.setAttribute("airlinesList", FlyPortalData.getAirlines());
 		request.getRequestDispatcher("flights/add_flight.jsp").forward(request, response);
 	}
 
