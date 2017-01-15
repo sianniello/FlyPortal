@@ -14,7 +14,7 @@ nel contesto della pagina come attributo.
 Sono organizzate secondo la loro funzionalità, ogni servlet ha uno specifico compito rendendole estremamente semplici.
 Alcune servlet permettono la gestione dei form tramite metodo post (es. _RegistrationServlet_), altre hanno in incarico la gestione delle richeste __AJAX__
 (es. _DeleteFlightServlet_).
-Hanno anche la responsabilità delle __session__
+Hanno anche la responsabilità di creare e gestire le __session__
  
 __Scalabilita__: Le servlet così strutturate possono essere deployate in qualsiasi sistema rispondendo alle richieste sempre allo stesso modo.
 
