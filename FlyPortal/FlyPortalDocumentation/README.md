@@ -35,20 +35,23 @@ In questo modo si alleggerisce parecchio la sessione e di conseguenza i messaggi
 
 ###Pages
 
-_Login_
+__Login__
+
 Chi accede al sito può scegliere se loggarsi come db_manager o come user ma ci si può registrare solo come user.
 
-_Visitors_
+__Visitors__
 
 Nella pagina __Visitors__ accessible solo ai db_manager si è utilizzato un meccanismo simile al __CounterBean__ ma esteso in modo che fosse possibile non solo tenere traccia degli accessi all'applicazione
 con informazioni relative a indirizzi ip e timestamp dell'ultimo accesso.
 
-_Flights_
+__Flights__
+
 La pagina di visualizzazione dei voli disponibili è stata differenziata per autorizzazione in modo da consentire ai db_manager di modificare
 ed eliminare i voli e agli utenti solo la visualizzazione e la prenotazione.
 
 
-_Transactions_
+__Transactions__
+
 Solo i db_manager hanno accesso alla pagina delle transazioni dove è possibile visualizzare tutte le transazioni effettuate con relative informazioni.
 
 
