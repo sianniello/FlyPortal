@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@page import="java.util.*"%>
 <%@page import="flight.Flight"%>
-<jsp:useBean id="showDataBean" class="flights.FlightsBean"
-	scope="request" />
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -43,7 +41,8 @@ $(document).ready(function() {
             $("#cartTable > tbody").html("");
             $("#buyBtn").hide();
             if ("Congratulations your order has been confirmed!" == a) {
-                var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+            	var loc = window.location.host;
+                var b = new WebSocket("ws://" + loc + "/FlyPortalWebWS/FlyPortalWS");
                 b.onopen = function(c) {
                     b.send(a);
                 };

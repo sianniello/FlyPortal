@@ -19,12 +19,11 @@ public class FlyPortalWebSocket {
 	public String onMessage(String message, Session session) {
 		allSessions = session.getOpenSessions();
 		for (Session sess: allSessions){          
-			try{   
-				if(!sess.equals(session))
+			try {
 				sess.getBasicRemote().sendText("");
-			} catch (IOException ioe) {        
-				System.out.println(ioe.getMessage());         
-			}   
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;   
 	}
@@ -40,7 +39,7 @@ public class FlyPortalWebSocket {
 
 	@OnClose
 	public void onClose(Session session) {
-
+		allSessions = session.getOpenSessions();
 		System.out.println(session.getId() + " ha chiuso la sessione");
 	}
 

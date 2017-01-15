@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<%@page import="flights.DeleteFlightBeanRemote"%>
-<%@page import="flight.Flight"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,8 +8,6 @@
 auth = (String) request.getSession().getAttribute("auth");
 	else request.getRequestDispatcher("login.html").forward(request, response);
 %>
-<jsp:useBean id="delDataBean" class="flights.DeleteFlightBean"
-	scope="request" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link
@@ -51,7 +47,8 @@ function removeServletCall(a) {
         flight: a
     }, function(a) {
         alert(a);
-        var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+        var loc = window.location.host;
+        var b = new WebSocket("ws://" + loc + "/FlyPortalWebWS/FlyPortalWS");
         b.onopen = function(c) {
             b.send(a);
             b.close();
@@ -64,9 +61,12 @@ function editServletCall(a, b, c, d, e, f, g, h, i) {
     $.post("EditFlightServlet", {
         flight: a + "#" + b + "#" + c + "#" + d + "#" + e + "#" + f + "#" + g + "#" + h + "#" + i
     }, function(a) {
-        var b = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+    	alert(a);
+    	var loc = window.location.host;
+        var b = new WebSocket("ws://" + loc + "/FlyPortalWebWS/FlyPortalWS");
         b.onopen = function(c) {
-            b.send(a);
+        	alert("");
+            b.send("");
             b.close();
         };
         location.reload();

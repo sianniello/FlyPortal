@@ -19,10 +19,11 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import routing.RoutingBean;
+
 import com.sun.rowset.CachedRowSetImpl;
 
 import database.*;
-import routing.*;
 
 /**
  * Session Bean implementation class ReplicaManagerBean
@@ -35,7 +36,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 
 	Database primary ;
 	ArrayList<Database> rl;
-
+	
 	@PostConstruct
 	void start() {
 		primary = new Database(new InetSocketAddress("127.0.0.1", 3306), "fly_portal", "admin", "password");
@@ -153,7 +154,7 @@ public class ReplicaManagerBean implements ReplicaManagerBeanRemote {
 		Set<Database> dbSet = new HashSet<>();
 		dbSet.add(primary);
 		dbSet.addAll(rl);
-		Database db = Routing.Parity(dbSet, param);
+		Database db = RoutingBean.getDatabase(dbSet, param, 0);
 
 		String url = "jdbc:mysql://" + db.getIsa().getHostString() + ":" + db.getIsa().getPort() + "/";
 		String dbName = db.getName();

@@ -20,8 +20,10 @@
 
 <script>
 window.onload = function(){
-	var a = new WebSocket("ws://localhost:8080/FlyPortalWebWS/FlyPortalWS");
+	var loc = window.location.host;
+	var a = new WebSocket("ws://" + loc + "/FlyPortalWebWS/FlyPortalWS");
     a.onmessage = function(a) {
+    	alert("");
         $("#flightsTable").load(window.location + " #flightsTable");
     };
 };
@@ -83,7 +85,7 @@ function CartServletCall(x) {
 					</thead>
 					<tbody>
 						<c:forEach items="${flights}" var="item">
-							<tr>
+							<tr class="${item.getState() == 'late' ? 'danger' : 'success'}">
 								<td>${item.getFlight()}</td>
 								<td>${item.getDepAirport()}</td>
 								<td>${item.getArrAirport()}</td>
