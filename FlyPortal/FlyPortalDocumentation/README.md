@@ -32,6 +32,22 @@ da memorizzare il codice del volo di tipo stringa e il numero di posti prenotati
 (e quindi della sessione) le informazioni complete sul volo in quanto possono essere ricavate al momento del bisogno utilizzando il codice (chiave).
 In questo modo si alleggerisce parecchio la sessione e di conseguenza i messaggi in transito sulla rete.
 
+
+###Pages
+Nella pagina __Visitors__ accessible solo ai db_manager si è utilizzato un meccanismo simile al __CounterBean__ ma esteso in modo che fosse possibile non solo tenere traccia degli accessi all'applicazione
+con informazioni relative a indirizzi ip e timestamp dell'ultimo accesso.
+
+La pagina di visualizzazione dei voli disponibili è stata differenziata per autorizzazione in modo da consentire ai db_manager di modificare
+ed eliminare i voli e agli utenti solo la visualizzazione e la prenotazione.
+
+Solo i db_manager hanno accesso alla pagina delle transazioni dove è possibile visualizzare tutte le transazioni effettuate con relative informazioni.
+
+
+###WebService
+Per recuperare informazioni su aeroporti e compagnie disponibili si è realizzato un web service che espone 2 metodi i quali forniscono la lista degli aeroporti (con relative informazioni)
+e la lista delle compagnie aeree. Nel war è stato implementato il client di tale servizio che richiama i metodi attraverso una servlet (__FlightDataServlet__).
+
+
 ##Back-End
 ###Database
 Si tratta di un pool di database mysql composto da un primary e uno slave secondo una configurazione
