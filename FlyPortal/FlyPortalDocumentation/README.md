@@ -87,6 +87,7 @@ eseguire un refresh dell'elemento.
 ###Bug
 ![Alt text](bug.png "Glassfish bug")
 <https://java.net/jira/browse/GLASSFISH-21314>
+
 A causa del bug riportato non è stato possibile gestire i database direttamente dal server glassfish.
 Tuttavia è stato possibile una gestione esplicita delle risorse senza compromettere le qualità
 di scalabilità.
