@@ -86,7 +86,7 @@ Per gestire le transazione si è utilizzato un apposito bean (_BookingBeanRemote_
 di con gestione di tipo _BEAN_ in modo da implementare il 2PC.
 
 
-Routing
+#Routing
 
 E' stato inoltre realizzato un semplice load balancer, attravero un metodo statico di un bean, che permette si smistare le query
 di richiesta (solo _SELECT_ dato che gli _UPDATE_ agiscono su tutte le risorse) al set di risorse secondo un algoritmo di tipo 
